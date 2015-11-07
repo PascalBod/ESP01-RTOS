@@ -44,3 +44,15 @@ be connected to the TXD wire of the FTDI cable.
 | green  | RTS | Output |
 
 VCC is at +5V. It must not be used.
+
+## First connection ##
+
+Connect the FTDI USB cable to a computer. Using a terminal emulator,
+connect to the serial-over-USB port. Configuration:
+* 9600 b/s
+* 8 data bits
+* no parity
+* 1 stop bit
+* no flow control
+
+Send `AT+GMR` command. Reply is `0018000902-AI03`.
