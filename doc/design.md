@@ -25,15 +25,22 @@ VCC  | O O  RXD    |  |         |
 
 VCC is 3.3V. RXD/TXD are 3.3V TTL.
 
+CH_PD must be pulled to 3.3V via a resistor (1k).
+
+RST must be pulled to 3.3V via a resistor (1k).
+
+TXD has to be connected to the RXD wire of the FTDI cable. RXD has to
+be connected to the TXD wire of the FTDI cable.
+
 ## FTDI cable wiring ##
 
-| Color  | Use |
-| ------ | --- |
-| black  | GND |
-| brown  | CTS |
-| red    | VCC |
-| orange | TXD |
-| yellow | RXD |
-| green  | RTS |
+| Color  | Use | Type   |
+| ------ | --- | ------ |
+| black  | GND |        |
+| brown  | CTS | Input  |
+| red    | VCC |        |
+| orange | TXD | Output |
+| yellow | RXD | Input  |
+| green  | RTS | Output |
 
 VCC is at +5V. It must not be used.
