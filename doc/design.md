@@ -56,3 +56,8 @@ connect to the serial-over-USB port. Configuration:
 * no flow control
 
 Send `AT+GMR` command. Reply is `0018000902-AI03`.
+
+# Reference material #
+
+* [Getting Started with ESP8266](http://www.esp8266.com/wiki/doku.php?id=getting-started-with-the-esp8266)
+* [FTDI USB TTL Serial Cables](http://www.ftdichip.com/Products/Cables/USBTTLSerial.htm)
