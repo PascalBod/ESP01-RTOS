@@ -61,3 +61,4 @@ Send `AT+GMR` command. Reply is `0018000902-AI03`.
 
 * [Getting Started with ESP8266](http://www.esp8266.com/wiki/doku.php?id=getting-started-with-the-esp8266)
 * [FTDI USB TTL Serial Cables](http://www.ftdichip.com/Products/Cables/USBTTLSerial.htm)
+* [ESP8266 KiCAD files](https://github.com/jdunmire/kicad-ESP8266)
