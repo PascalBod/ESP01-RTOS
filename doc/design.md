@@ -8,7 +8,7 @@ Following elements are required:
 * one 3.3V power supply
 * two 1k resistors
 * a way to connect above elements (breadboard, etc.)
-* a computer with a terminal emulator
+* a computer with a terminal emulator. For OS X, I use *CoolTerm*
 
 ## ESP-01 wiring ##
 
