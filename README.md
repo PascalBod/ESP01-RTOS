@@ -1,8 +1,10 @@
 # ESP-01 #
 
-How the project is structured:
-* `doc` folder: all documentation (reference, design, installation, etc.)
+Current repository is structured as follows:
+
 * `code` folder: source code
+* `doc` folder: all documentation (reference, design, installation, etc.)
+* `hw` folder: files relating to hardware side (schematics, etc.)
 * wiki: information about builds, delivery, etc.
 
 When possible, documents are in 

@@ -9,7 +9,7 @@ Following elements are required:
 * one 3.3V power supply
 * two 1k resistors
 * a way to connect above elements (breadboard, etc.)
-* a computer with a terminal emulator
+* a computer with a terminal emulator. For OS X, I use *CoolTerm*
 
 ## ESP-01 wiring ##
 
@@ -37,16 +37,20 @@ be connected to the TXD wire of the FTDI cable.
 
 ## FTDI cable wiring ##
 
-| Color  | Use | Type   |
-| ------ | --- | ------ |
-| black  | GND |        |
-| brown  | CTS | Input  |
-| red    | VCC |        |
-| orange | TXD | Output |
-| yellow | RXD | Input  |
-| green  | RTS | Output |
+| Pin | Color  | Use | Type   |
+| --- | ------ | --- | ------ |
+| 1   | black  | GND |        |
+| 2   | brown  | CTS | Input  |
+| 3   | red    | VCC |        |
+| 4   | orange | TXD | Output |
+| 5   | yellow | RXD | Input  |
+| 6   | green  | RTS | Output |
 
 VCC is at +5V. It must not be used.
+
+## Schematic ##
+
+![](ESP-01-1.png)
 
 ## First connection ##
 
