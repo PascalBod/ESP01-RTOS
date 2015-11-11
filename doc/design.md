@@ -3,6 +3,7 @@
 ## Prerequisites ##
 
 Following elements are required:
+
 * one ESP-01 board
 * one FTDI TTL-232R-3V3-WE cable
 * one 3.3V power supply
@@ -51,6 +52,7 @@ VCC is at +5V. It must not be used.
 
 Connect the FTDI USB cable to a computer. Using a terminal emulator,
 connect to the serial-over-USB port. Configuration:
+
 * 9600 b/s
 * 8 data bits
 * no parity
@@ -58,6 +60,10 @@ connect to the serial-over-USB port. Configuration:
 * no flow control
 
 Send `AT+GMR` command. Reply is `0018000902-AI03`.
+
+## First firmware download ##
+
+
 
 # Reference material #
 
