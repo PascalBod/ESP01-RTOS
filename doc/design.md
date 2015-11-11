@@ -67,7 +67,22 @@ Send `AT+GMR` command. Reply is `0018000902-AI03`.
 
 ## First firmware download ##
 
+### Overview ###
 
+[This page](http://bbs.espressif.com/viewtopic.php?f=67&t=821) from Espressif web site explains how to install Espressif SDK in four steps.
+
+First step refers to [files stored on Baidu](http://pan.baidu.com/s/1gd3T14n). Downloading from there can be quite slow but it worked for me. It seems that some of those files [can be found on Google Drive](http://www.esp8266.com/viewtopic.php?f=9&t=430) as well.
+
+### Virtual image installation and configuration ###
+
+* download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Advised version is 4.3.12, but is not supported by the version of OS X I use. Consequently, I install version 5.0.10.
+* download [virtual image containing the SDK](http://pan.baidu.com/s/1gd3T14n). Password is `qudl`.
+* from VirtualBox, import the virtual image
+* declare shared folder
+* copy IoT SDK source code to shared folder, and copy IoT Demo source code to the `app` folder
+* start the virtual machine
+* thanks to **Preferences / Keyboard Input Methods**, add support for AZERTY keyboard (for a MacBook, beware: some keys are not at the usual place, e.g. `-` or `_`)
+* 
 
 # Reference material #
 
