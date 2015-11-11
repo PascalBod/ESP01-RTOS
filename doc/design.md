@@ -5,8 +5,10 @@
 Following elements are required:
 * one ESP-01 board
 * one FTDI TTL-232R-3V3-WE cable
-* one breadboard
 * one 3.3V power supply
+* two 1k resistors
+* a way to connect above elements (breadboard, etc.)
+* a computer with a terminal emulator
 
 ## ESP-01 wiring ##
 
@@ -59,6 +61,10 @@ Send `AT+GMR` command. Reply is `0018000902-AI03`.
 
 # Reference material #
 
-* [Getting Started with ESP8266](http://www.esp8266.com/wiki/doku.php?id=getting-started-with-the-esp8266)
-* [FTDI USB TTL Serial Cables](http://www.ftdichip.com/Products/Cables/USBTTLSerial.htm)
-* [ESP8266 KiCAD files](https://github.com/jdunmire/kicad-ESP8266)
+* ESP8266
+  * [Getting Started with ESP8266](http://www.esp8266.com/wiki/doku.php?id=getting-started-with-the-esp8266)
+  * [Espressif documentation](http://bbs.espressif.com/viewtopic.php?f=67&t=225)
+  * [ESP8266 KiCAD files](https://github.com/jdunmire/kicad-ESP8266)
+* Misc.
+  * [FTDI USB TTL Serial Cables](http://www.ftdichip.com/Products/Cables/USBTTLSerial.htm)
+  * [CoolTerm: free terminal emulator for OS X](http://freeware.the-meiers.org/)
