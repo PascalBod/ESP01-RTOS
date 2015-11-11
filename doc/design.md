@@ -36,14 +36,14 @@ be connected to the TXD wire of the FTDI cable.
 
 ## FTDI cable wiring ##
 
-| Nb | Color  | Use | Type   |
-| -- | ------ | --- | ------ |
-| 1  | black  | GND |        |
-| 2  | brown  | CTS | Input  |
-| 3  | red    | VCC |        |
-| 4  | orange | TXD | Output |
-| 5  | yellow | RXD | Input  |
-| 6  | green  | RTS | Output |
+| Pin | Color  | Use | Type   |
+| --- | ------ | --- | ------ |
+| 1   | black  | GND |        |
+| 2   | brown  | CTS | Input  |
+| 3   | red    | VCC |        |
+| 4   | orange | TXD | Output |
+| 5   | yellow | RXD | Input  |
+| 6   | green  | RTS | Output |
 
 VCC is at +5V. It must not be used.
 
