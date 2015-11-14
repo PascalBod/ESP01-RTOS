@@ -75,9 +75,7 @@ First step is to install the development environment. There are several ways to 
 * the [Espressif Community way](https://github.com/esp8266/esp8266-wiki/wiki/Toolchain)
 * the [open way](https://github.com/pfalcon/esp-open-sdk)
 
-We will conform to the Espressif way.
-
-It refers to [files stored on Baidu](http://pan.baidu.com/s/1gd3T14n). Downloading from there can be quite slow. Files [can be found on Google Drive](https://drive.google.com/folderview?id=0B5bwBE9A5dBXaExvdDExVFNrUXM&usp=sharing) as well.
+We will conform to the Espressif way. It refers to [files stored on Baidu](http://pan.baidu.com/s/1gd3T14n). Downloading from there can be quite slow. Files [can be found on Google Drive](https://drive.google.com/folderview?id=0B5bwBE9A5dBXaExvdDExVFNrUXM&usp=sharing) as well.
 
 ### Virtual image installation and configuration ###
 
@@ -106,17 +104,44 @@ sudo mount -o gid=1000,uid=1000 -t vboxsf share /mnt/Share
 
 ### Build of IoT Demo ###
 
-* go into ``app`` directory and run ``make`` command. It should display following results:
+Reference document seems to be [2A-ESP8266__IOT_SDK_User_Manual__EN_v1.4.pdf](http://bbs.espressif.com/viewtopic.php?f=51&t=1024).
+
+* go into ``app`` directory and run ``./gen_misc.sh``. Enter following parameters:
+  * boot version: 1 (boot V1.2+)
+  * bin: 1 (user1.bin)
+  * SPI speed: to be checked. Let's keep default value for now
+  * SPI mode: same
+  * SPI size: to be checked. Let's choose 2 (512KB + 512KB) for now
+
+Displayed results:
 
 ```
 !!!
-No boot needed.  
-Generate eagle.flash.bin and eagle.irom0text.bin successully in folder bin.  
-eagle.flash.bin-------->0x00000  
-eagle.irom0text.bin---->0x40000  
+-152710429
+152710428
+Support boot_v1.2 and +
+Generate user1.1024.new.2.bin successully in folder bin/upgrade.
+boot.bin------------>0x00000
+user1.1024.new.2.bin--->0x01000
 !!!
+make: warning:  Clock skew detected.  Your build may be incomplete.
 ```
-* run ``./gen_misc.sh``. Several questions have to be answered, regarding boot version, SPI speed, etc. For first run, I used default answers. In the end, displayed message is the same than above, with a warning about *clock skew*.
+
+* perform a ``make clean`` and run same process again, for ``user2.bin`` now
+
+Displayed results:
+
+```
+!!!
+303209664
+303209665
+Support boot_v1.2 and +
+Generate user2.1024.new.2.bin successully in folder bin/upgrade.
+boot.bin------------>0x00000
+user2.1024.new.2.bin--->0x81000
+!!!
+make: warning:  Clock skew detected.  Your build may be incomplete.
+```
 
 # Reference material #
 
