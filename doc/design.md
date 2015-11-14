@@ -69,20 +69,54 @@ Send `AT+GMR` command. Reply is `0018000902-AI03`.
 
 ### Overview ###
 
-[This page](http://bbs.espressif.com/viewtopic.php?f=67&t=821) from Espressif web site explains how to install Espressif SDK in four steps.
+First step is to install the development environment. There are several ways to do so:
 
-First step refers to [files stored on Baidu](http://pan.baidu.com/s/1gd3T14n). Downloading from there can be quite slow but it worked for me. It seems that some of those files [can be found on Google Drive](http://www.esp8266.com/viewtopic.php?f=9&t=430) as well.
+* the [Espressif way](http://bbs.espressif.com/viewtopic.php?f=67&t=821)
+* the [Espressif Community way](https://github.com/esp8266/esp8266-wiki/wiki/Toolchain)
+* the [open way](https://github.com/pfalcon/esp-open-sdk)
+
+We will conform to the Espressif way.
+
+It refers to [files stored on Baidu](http://pan.baidu.com/s/1gd3T14n). Downloading from there can be quite slow. Files [can be found on Google Drive](https://drive.google.com/folderview?id=0B5bwBE9A5dBXaExvdDExVFNrUXM&usp=sharing) as well.
 
 ### Virtual image installation and configuration ###
 
-* download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Advised version is 4.3.12, but is not supported by the version of OS X I use. Consequently, I install version 5.0.10.
-* download [virtual image containing the SDK](http://pan.baidu.com/s/1gd3T14n). Password is `qudl`.
+* download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Advised version is 4.3.12, but is not supported by the version of OS X I use. Consequently, I install version 5.0.10
+* download virtual image, which contains the toolchain
 * from VirtualBox, import the virtual image
 * declare shared folder
-* copy IoT SDK source code to shared folder, and copy IoT Demo source code to the `app` folder
+* download [IoT Non-OS SDK](http://bbs.espressif.com/viewtopic.php?f=46&t=1124)
+* copy IoT SDK to shared folder, and copy IoT Demo source code to the `app` folder
 * start the virtual machine
 * thanks to **Preferences / Keyboard Input Methods**, add support for AZERTY keyboard (for a MacBook, beware: some keys are not at the usual place, e.g. `-` or `_`)
-* 
+* upgrade to Guest Additions 5.0.10:
+  * click on **Devices / Insert Guest Additions CD Image...** and mount it. For me, it was mounted at ``/media/esp8266/VBOXADDITIONS_5.0.10_104061``
+  * open a terminal, go into this directory, and run command
+
+```
+sudo ./VBoxLinuxAdditions.run
+```
+* reboot the virtual machine: ``sudo reboot``
+* read UID and GID for *esp8266* user from ``/etc/passwd``. In my case: ``1000:1000``.
+* mount shared folder:
+
+```
+sudo mount -o gid=1000,uid=1000 -t vboxsf share /mnt/Share
+```
+
+### Build of IoT Demo ###
+
+* go into ``app`` directory and run ``make`` command. It should display following results:
+
+```
+!!!
+No boot needed.  
+Generate eagle.flash.bin and eagle.irom0text.bin successully in folder bin.  
+eagle.flash.bin-------->0x00000  
+eagle.irom0text.bin---->0x40000  
+!!!
+```
+* run ``./gen_misc.sh``. Several questions have to be answered, regarding boot version, SPI speed, etc. For first run, I used default answers. In the end, displayed message is the same than above, with a warning about *clock skew*.
 
 # Reference material #
 
