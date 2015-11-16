@@ -127,7 +127,7 @@ user1.1024.new.2.bin--->0x01000
 make: warning:  Clock skew detected.  Your build may be incomplete.
 ```
 
-* perform a ``make clean`` and run same process again, for ``user2.bin`` now
+* perform a ``make clean`` and run same process again, for ``user2.bin``
 
 Displayed results:
 
@@ -141,6 +141,20 @@ boot.bin------------>0x00000
 user2.1024.new.2.bin--->0x81000
 !!!
 make: warning:  Clock skew detected.  Your build may be incomplete.
+```
+### Installation of the flash download tool ###
+
+[This page](http://bbs.espressif.com/viewtopic.php?f=57&t=433) gives indications about how to install the flash download tool. It requires Python 2.6 or 2.7, and a few specific libraries. 
+
+To install on OS X:
+
+* Python 2.7.10 is already installed. But the installation of [wxPython](http://www.wxpython.org/download.php) required library fails. According to [wxPython forum](http://wxpython-users.1045709.n5.nabble.com/Installation-fails-on-OSX-despite-change-to-security-settings-td5724774.html), one solution is to install and use Anaconda Python.
+* download [Anaconda Graphical Installer for Python 2.7](https://www.continuum.io/downloads)
+* open a new terminal and enter commands
+
+```
+conda install wxpython
+conda install pyserial
 ```
 
 # Reference material #
