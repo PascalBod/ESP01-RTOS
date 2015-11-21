@@ -1,4 +1,4 @@
-# Hardware set up #
+# Hardware and software set up #
 
 ## Prerequisites ##
 
@@ -75,86 +75,74 @@ First step is to install the development environment. There are several ways to 
 * the [Espressif Community way](https://github.com/esp8266/esp8266-wiki/wiki/Toolchain)
 * the [open way](https://github.com/pfalcon/esp-open-sdk)
 
-We will conform to the Espressif way. It refers to [files stored on Baidu](http://pan.baidu.com/s/1gd3T14n). Downloading from there can be quite slow. Files [can be found on Google Drive](https://drive.google.com/folderview?id=0B5bwBE9A5dBXaExvdDExVFNrUXM&usp=sharing) as well.
+I tried the Espressif way, but without real success. It relies on a VirtualBox Linux guest, and a Python download tool. Setting up the virtual machine was OK. But I was not able to use the download tool. So, let's switch to the open way.
 
-### Virtual image installation and configuration ###
+Steps described below are for *OS X El Capitan* (10.11.1).
 
-* download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Advised version is 4.3.12, but is not supported by the version of OS X I use. Consequently, I install version 5.0.10
-* download virtual image, which contains the toolchain
-* from VirtualBox, import the virtual image
-* declare shared folder
-* download [IoT Non-OS SDK](http://bbs.espressif.com/viewtopic.php?f=46&t=1124)
-* copy IoT SDK to shared folder, and copy IoT Demo source code to the `app` folder
-* start the virtual machine
-* thanks to **Preferences / Keyboard Input Methods**, add support for AZERTY keyboard (for a MacBook, beware: some keys are not at the usual place, e.g. `-` or `_`)
-* upgrade to Guest Additions 5.0.10:
-  * click on **Devices / Insert Guest Additions CD Image...** and mount it. For me, it was mounted at ``/media/esp8266/VBOXADDITIONS_5.0.10_104061``
-  * open a terminal, go into this directory, and run command
+## Requirements and dependencies ##
+
+* install *brew*:
 
 ```
-sudo ./VBoxLinuxAdditions.run
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
-* reboot the virtual machine: ``sudo reboot``
-* read UID and GID for *esp8266* user from ``/etc/passwd``. In my case: ``1000:1000``.
-* mount shared folder:
+* install dependencies:
 
 ```
-sudo mount -o gid=1000,uid=1000 -t vboxsf share /mnt/Share
+brew tap homebrew/dupes
+brew install binutils coreutils automake wget gawk libtool gperf gnu-sed --with-default-names grep
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 ```
-
-### Build of IoT Demo ###
-
-Reference document seems to be [2A-ESP8266__IOT_SDK_User_Manual__EN_v1.4.pdf](http://bbs.espressif.com/viewtopic.php?f=51&t=1024).
-
-* go into ``app`` directory and run ``./gen_misc.sh``. Enter following parameters:
-  * boot version: 1 (boot V1.2+)
-  * bin: 1 (user1.bin)
-  * SPI speed: to be checked. Let's keep default value for now
-  * SPI mode: same
-  * SPI size: to be checked. Let's choose 2 (512KB + 512KB) for now
-
-Displayed results:
+* create a virtual disk with case-sensitive file system:
 
 ```
-!!!
--152710429
-152710428
-Support boot_v1.2 and +
-Generate user1.1024.new.2.bin successully in folder bin/upgrade.
-boot.bin------------>0x00000
-user1.1024.new.2.bin--->0x01000
-!!!
-make: warning:  Clock skew detected.  Your build may be incomplete.
+mkdir -p ~/DevTools/espopensdk
+sudo hdiutil create ~/DevTools/espopensdk/case-sensitive.dmg -volname "case-sensitive" -size 10g -fs "Case-sensitive HFS+"
+sudo hdiutil mount ~/DevTools/espopensdk/case-sensitive.dmg
+cd /Volumes/case-sensitive
 ```
 
-* perform a ``make clean`` and run same process again, for ``user2.bin``
+## Building ##
 
-Displayed results:
-
-```
-!!!
-303209664
-303209665
-Support boot_v1.2 and +
-Generate user2.1024.new.2.bin successully in folder bin/upgrade.
-boot.bin------------>0x00000
-user2.1024.new.2.bin--->0x81000
-!!!
-make: warning:  Clock skew detected.  Your build may be incomplete.
-```
-### Installation of the flash download tool ###
-
-[This page](http://bbs.espressif.com/viewtopic.php?f=57&t=433) gives indications about how to install the flash download tool. It requires Python 2.6 or 2.7, and a few specific libraries. 
-
-To install on OS X:
-
-* Python 2.7.10 is already installed. But the installation of [wxPython](http://www.wxpython.org/download.php) required library fails. According to [wxPython forum](http://wxpython-users.1045709.n5.nabble.com/Installation-fails-on-OSX-despite-change-to-security-settings-td5724774.html), one solution is to install and use Anaconda Python.
-* download [Anaconda Graphical Installer for Python 2.7](https://www.continuum.io/downloads)
-* open a new terminal and enter commands
+* clone repository:
 
 ```
-conda install wxpython
-conda install pyserial
+git clone --recursive https://github.com/pfalcon/esp-open-sdk.git
+```
+* build the project. We choose the separated (non-standalone) SDK:
+
+```
+cd esp-open-sdk
+make STANDALONE=n
+```
+Make process stops with many error messages similar to this one:
+
+```
+/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/iterator:413:13: error: unknown type name 'ptrdiff_t'
+```
+A solution is given [here](https://github.com/pfalcon/esp-open-sdk/issues/45):
+
+```
+sed -i.bak '/__need_size_t/d' ./crosstool-NG/.build/src/gmp-5.1.3/gmp-h.in
+make STANDALONE=n
+```
+Once the SDK is installed, following information is displayed:
+
+```
+Xtensa toolchain is built, to use it:
+
+export PATH=/Volumes/case-sensitive/esp-open-sdk/xtensa-lx106-elf/bin:$PATH
+
+Espressif ESP8266 SDK is installed. Toolchain contains only Open Source components
+To link external proprietary libraries add:
+
+xtensa-lx106-elf-gcc -I/Volumes/case-sensitive/esp-open-sdk/sdk/include -L/Volumes/case-sensitive/esp-open-sdk/sdk/lib
+```
+* add following lines to `~/.bash_profile`:
+
+```
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH=/Volumes/case-sensitive/esp-open-sdk/xtensa-lx106-elf/bin:$PATH
 ```
 
 # Reference material #
@@ -164,5 +152,6 @@ conda install pyserial
   * [Espressif documentation](http://bbs.espressif.com/viewtopic.php?f=67&t=225)
   * [ESP8266 KiCAD files](https://github.com/jdunmire/kicad-ESP8266)
 * Misc.
+  * [brew](http://brew.sh/)
   * [FTDI USB TTL Serial Cables](http://www.ftdichip.com/Products/Cables/USBTTLSerial.htm)
   * [CoolTerm: free terminal emulator for OS X](http://freeware.the-meiers.org/)
