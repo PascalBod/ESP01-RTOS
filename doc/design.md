@@ -204,7 +204,27 @@ Device: 4013
 
 It seems that the `flash_id` command switches ESP-01 back to normal mode.
 
-According to [this page](http://code.coreboot.org/p/flashrom/source/tree/HEAD/trunk/flashchips.h), flash device is a GIGADEVICE GD25Q40. According to [this page](http://www.elnec.com/en/device/GigaDevice+Semic./GD25Q40+%5BTSSOP8%5D/), this is a 4 Mbit flash.
+According to [this page](http://code.coreboot.org/p/flashrom/source/tree/HEAD/trunk/flashchips.h), flash device is a GIGADEVICE GD25Q40. According to [this page](http://www.elnec.com/en/device/GigaDevice+Semic./GD25Q40+%5BTSSOP8%5D/), this is a 4 Mbit flash device.
+
+#### Backuping flash device contents ####
+
+To backup the contents of the flash device, use this command:
+
+```
+./esptool.py --port /dev/tty.usbserial-FTGDQUKC read_flash 0x00000 0x80000 ./ESP01Backup.bin
+```
+
+`0x80000` is for 512KB, i.e. 4 Mb. `./ESP01Backup.bin` is the file where memory contents is to be saved.
+
+The read operation takes about one minute.
+
+To reprogram the ESP-01 with this image:
+
+```
+./esptool.py --port /dev/tty.usbserial-FTGDQUKC write_flash 0x00000 ESP01Backup.bin
+```
+
+The write operation takes about one minute.
 
 ### The open way ###
 
