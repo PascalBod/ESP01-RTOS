@@ -1,0 +1,240 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:ESP8266
+LIBS:FTDICables
+LIBS:testESP01-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Test ESP-01"
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L ESP-01v090 U1
+U 1 1 564303EA
+P 6350 3250
+F 0 "U1" H 6350 3150 50  0000 C CNN
+F 1 "ESP-01v090" H 6350 3350 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Angled_2x04" H 6350 3250 50  0001 C CNN
+F 3 "" H 6350 3250 50  0001 C CNN
+	1    6350 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R1
+U 1 1 564304DF
+P 4900 2950
+F 0 "R1" V 4980 2950 50  0000 C CNN
+F 1 "1k" V 4900 2950 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM30mm" V 4830 2950 30  0001 C CNN
+F 3 "" H 4900 2950 30  0000 C CNN
+	1    4900 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R2
+U 1 1 5643053B
+P 5100 2950
+F 0 "R2" V 5180 2950 50  0000 C CNN
+F 1 "1k" V 5100 2950 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM30mm" V 5030 2950 30  0001 C CNN
+F 3 "" H 5100 2950 30  0000 C CNN
+	1    5100 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3V3 #PWR01
+U 1 1 56430584
+P 4700 2550
+F 0 "#PWR01" H 4700 2400 50  0001 C CNN
+F 1 "+3V3" H 4700 2690 50  0000 C CNN
+F 2 "" H 4700 2550 60  0000 C CNN
+F 3 "" H 4700 2550 60  0000 C CNN
+	1    4700 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR02
+U 1 1 564305A1
+P 7800 3200
+F 0 "#PWR02" H 7800 2950 50  0001 C CNN
+F 1 "GND" H 7800 3050 50  0000 C CNN
+F 2 "" H 7800 3200 60  0000 C CNN
+F 3 "" H 7800 3200 60  0000 C CNN
+	1    7800 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L FTDITTL232R3V3WE J1
+U 1 1 56430FC6
+P 6000 4500
+F 0 "J1" H 6000 3800 60  0000 C CNN
+F 1 "FTDITTL232R3V3WE" H 6000 4500 60  0000 C CNN
+F 2 "Connect:bornier6" H 6000 4500 60  0001 C CNN
+F 3 "" H 6000 4500 60  0000 C CNN
+	1    6000 4500
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5400 3400 4700 3400
+Wire Wire Line
+	4700 3400 4700 2550
+Wire Wire Line
+	5400 3300 4900 3300
+Wire Wire Line
+	4900 3300 4900 3100
+$Comp
+L +3V3 #PWR03
+U 1 1 5643110C
+P 4900 2550
+F 0 "#PWR03" H 4900 2400 50  0001 C CNN
+F 1 "+3V3" H 4900 2690 50  0000 C CNN
+F 2 "" H 4900 2550 60  0000 C CNN
+F 3 "" H 4900 2550 60  0000 C CNN
+	1    4900 2550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4900 2800 4900 2550
+Wire Wire Line
+	5400 3200 5100 3200
+Wire Wire Line
+	5100 3200 5100 3100
+$Comp
+L +3V3 #PWR04
+U 1 1 564311D3
+P 5100 2550
+F 0 "#PWR04" H 5100 2400 50  0001 C CNN
+F 1 "+3V3" H 5100 2690 50  0000 C CNN
+F 2 "" H 5100 2550 60  0000 C CNN
+F 3 "" H 5100 2550 60  0000 C CNN
+	1    5100 2550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5100 2800 5100 2550
+NoConn ~ 7300 3200
+NoConn ~ 7300 3300
+Wire Wire Line
+	5400 3100 5300 3100
+Wire Wire Line
+	5300 3100 5300 3700
+Wire Wire Line
+	5300 3700 6500 3700
+Wire Wire Line
+	6500 3700 6500 4000
+Wire Wire Line
+	6500 4000 6300 4000
+Wire Wire Line
+	7300 3400 7400 3400
+Wire Wire Line
+	7400 3400 7400 4100
+Wire Wire Line
+	7400 4100 6300 4100
+NoConn ~ 6300 4200
+NoConn ~ 6300 4300
+$Comp
+L GND #PWR05
+U 1 1 56431543
+P 6700 4500
+F 0 "#PWR05" H 6700 4250 50  0001 C CNN
+F 1 "GND" H 6700 4350 50  0000 C CNN
+F 2 "" H 6700 4500 60  0000 C CNN
+F 3 "" H 6700 4500 60  0000 C CNN
+	1    6700 4500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6300 4400 6700 4400
+Wire Wire Line
+	6700 4400 6700 4500
+Wire Wire Line
+	7300 3100 7800 3100
+Wire Wire Line
+	7800 3100 7800 3200
+$Comp
+L PWR_FLAG #FLG06
+U 1 1 564316AC
+P 8400 2300
+F 0 "#FLG06" H 8400 2395 50  0001 C CNN
+F 1 "PWR_FLAG" H 8400 2480 50  0000 C CNN
+F 2 "" H 8400 2300 60  0000 C CNN
+F 3 "" H 8400 2300 60  0000 C CNN
+	1    8400 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L PWR_FLAG #FLG07
+U 1 1 564316D8
+P 8800 2300
+F 0 "#FLG07" H 8800 2395 50  0001 C CNN
+F 1 "PWR_FLAG" H 8800 2480 50  0000 C CNN
+F 2 "" H 8800 2300 60  0000 C CNN
+F 3 "" H 8800 2300 60  0000 C CNN
+	1    8800 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR08
+U 1 1 56431700
+P 8400 2400
+F 0 "#PWR08" H 8400 2150 50  0001 C CNN
+F 1 "GND" H 8400 2250 50  0000 C CNN
+F 2 "" H 8400 2400 60  0000 C CNN
+F 3 "" H 8400 2400 60  0000 C CNN
+	1    8400 2400
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3V3 #PWR09
+U 1 1 5643172C
+P 8800 2400
+F 0 "#PWR09" H 8800 2250 50  0001 C CNN
+F 1 "+3V3" H 8800 2540 50  0000 C CNN
+F 2 "" H 8800 2400 60  0000 C CNN
+F 3 "" H 8800 2400 60  0000 C CNN
+	1    8800 2400
+	1    0    0    1   
+$EndComp
+Wire Wire Line
+	8800 2400 8800 2300
+Wire Wire Line
+	8400 2400 8400 2300
+NoConn ~ 6300 3900
+$EndSCHEMATC
