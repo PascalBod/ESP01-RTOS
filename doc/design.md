@@ -1,5 +1,7 @@
 # Hardware and software set up #
 
+**Note**: all information given herei is for a *Mac* running *OS X El Capitan* (10.11.1).
+
 ## Prerequisites ##
 
 Following elements are required:
@@ -63,13 +65,13 @@ connect to the serial-over-USB port. Configuration:
 * 1 stop bit
 * no flow control
 
-On OS X, I use *CoolTerm* (see reference section) for terminal emulation. Device assigned to virtual serial port is `/dev/tty.usbserial-FTGDQUKC` (last part of the name is cable unique serial number).
+I use *CoolTerm* (see reference section) for terminal emulation. Device assigned to virtual serial port is `/dev/tty.usbserial-FTGDQUKC` (last part of the name is cable unique serial number. It depends on the cable.)
 
 Send `AT+GMR` command. Reply is `0018000902-AI03` for the ESP-01 I use.
 
 ## First firmware download ##
 
-### Overview ###
+### Various possibilities ###
 
 First step is to install the development environment. There are several ways to do so:
 
@@ -77,162 +79,9 @@ First step is to install the development environment. There are several ways to 
 * the [Espressif Community way](https://github.com/esp8266/esp8266-wiki/wiki/Toolchain)
 * the [open way](https://github.com/pfalcon/esp-open-sdk)
 
-### The Espressif way ###
+For use of RTOS SDK, the open way [is recommended by Espressif](https://github.com/espressif/ESP8266_RTOS_SDK). So, we'll go with it.
 
-Espressif way refers to [files stored on Baidu](http://pan.baidu.com/s/1gd3T14n). Downloading from there can be quite slow. Files [can be found on Google Drive](https://drive.google.com/folderview?id=0B5bwBE9A5dBXaExvdDExVFNrUXM&usp=sharing) as well.
-
-#### Virtual image installation and configuration ####
-
-* download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Advised version is 4.3.12, but is not supported by the version of OS X I use. Consequently, I install version 5.0.10
-* download virtual image, which contains the toolchain
-* from VirtualBox, import the virtual image
-* declare shared folder. For me: `~/DevTools/Espressif/sharedFolder`
-* download [IoT Non-OS SDK](http://bbs.espressif.com/viewtopic.php?f=46&t=1124)
-* copy IoT SDK to shared folder, and copy IoT Demo source code to the `app` folder
-* start the virtual machine
-* thanks to **Preferences / Keyboard Input Methods**, add support for AZERTY keyboard (for a MacBook, beware: some keys are not at the usual place, e.g. `-` or `_`)
-* upgrade to Guest Additions 5.0.10:
-  * click on **Devices / Insert Guest Additions CD Image...** and mount it. For me, it was mounted at ``/media/esp8266/VBOXADDITIONS_5.0.10_104061``
-  * open a terminal, go into this directory, and run command
-
-```
-$ sudo ./VBoxLinuxAdditions.run
-```
-* reboot the virtual machine: ``sudo reboot``
-* read UID and GID for *esp8266* user from ``/etc/passwd``. In my case: ``1000:1000``.
-* mount shared folder:
-
-```
-$ sudo mount -o gid=1000,uid=1000 -t vboxsf share /mnt/Share
-```
-
-#### Build of IoT Demo ####
-
-Reference document seems to be [2A-ESP8266__IOT_SDK_User_Manual__EN_v1.4.pdf](http://bbs.espressif.com/viewtopic.php?f=51&t=1024).
-
-* go into ``app`` directory and run ``./gen_misc.sh``. Enter following parameters:
-  * boot version: 1 (boot V1.2+)
-  * bin: 1 (user1.bin)
-  * SPI speed: to be checked. Let's keep default value for now
-  * SPI mode: same
-  * SPI size: to be checked. Let's choose 2 (512KB + 512KB) for now
-
-Displayed results:
-
-```
-!!!
--152710429
-152710428
-Support boot_v1.2 and +
-Generate user1.1024.new.2.bin successully in folder bin/upgrade.
-boot.bin------------>0x00000
-user1.1024.new.2.bin--->0x01000
-!!!
-make: warning:  Clock skew detected.  Your build may be incomplete.
-```
-
-* perform a ``make clean`` and run same process again, for ``user2.bin``
-
-Displayed results:
-
-```
-!!!
-303209664
-303209665
-Support boot_v1.2 and +
-Generate user2.1024.new.2.bin successully in folder bin/upgrade.
-boot.bin------------>0x00000
-user2.1024.new.2.bin--->0x81000
-!!!
-make: warning:  Clock skew detected.  Your build may be incomplete.
-```
-#### Installation of the flash download tool ####
-
-[This page](http://bbs.espressif.com/viewtopic.php?f=57&t=433) gives indications about a download tool with GUI. But I did not succeed in getting it to work. So, let's install the one available [here](https://github.com/themadinventor/esptool):
-
-* go into `~/DevTools/Espressif/` and clone the repository:
-
-```
-$ git clone https://github.com/themadinventor/esptool.git
-```
-* the clone operation creates a subdirectory named `esptool`
-* install *pyserial*:
-
-```
-$ sudo easy_install pyserial
-```
-#### Schematic ####
-
-RST and GPIO0 must be wired so that they can be set to GND when required:
-
-![](ESP-01-02.png)
-
-In normal mode, RST is connected to 3.3V, and GPIO0 is left floating (it is connected to an internal pull-up resistor).
-
-To set ESP-01 in UART download mode:
-
-* switch RST to GND
-* switch GPI0 to GND
-* switch back RST to 3.3V
-* switch back GPI0 to floating
-
-The ESP-01 is now in UART download mode.
-
-#### Test of UART download mode ####
-
-In directory `~/DevTools/Espressif/esptool/`, enter following command, using your cable serial number:
-
-```
-$ ./esptool.py -p /dev/tty.usbserial-FTGDQUKC read_mac
-```
-
-A message similar to this one should be displayed:
-
-```
-Connecting...
-MAC: 18:fe:34:a0:33:c9
-```
-
-When requesting flash id:
-
-```
-$ ./esptool.py -p /dev/tty.usbserial-FTGDQUKC flash_id
-Connecting...
-Manufacturer: c8
-Device: 4013
-```
-
-It seems that the `flash_id` command switches ESP-01 back to normal mode.
-
-According to [this page](http://code.coreboot.org/p/flashrom/source/tree/HEAD/trunk/flashchips.h), flash device is a GIGADEVICE GD25Q40. According to [this page](http://www.elnec.com/en/device/GigaDevice+Semic./GD25Q40+%5BTSSOP8%5D/), this is a 4 Mbit flash device.
-
-#### Backuping flash device contents ####
-
-To backup the contents of the flash device, use this command:
-
-```
-./esptool.py --port /dev/tty.usbserial-FTGDQUKC read_flash 0x00000 0x80000 ./ESP01Backup.bin
-```
-
-`0x80000` is for 512KB, i.e. 4 Mb. `./ESP01Backup.bin` is the file where memory contents is to be saved.
-
-The read operation takes about one minute.
-
-To reprogram the ESP-01 with this image:
-
-```
-./esptool.py --port /dev/tty.usbserial-FTGDQUKC write_flash 0x00000 ESP01Backup.bin
-```
-
-The write operation takes about one minute.
-
-### The open way ###
-
-*[I did not succeed in fully configuring this way. Kept for reference only.]*
-
-Steps described below are for *OS X El Capitan* (10.11.1).
-
-#### Requirements and dependencies ####
+### Requirements and dependencies ###
 
 * install *brew*:
 
@@ -255,7 +104,7 @@ $ sudo hdiutil mount ~/DevTools/espopensdk/case-sensitive.dmg
 $ cd /Volumes/case-sensitive
 ```
 
-#### Building and configuring the SDK ####
+### Building and configuring the SDK ###
 
 * clone repository:
 
@@ -297,15 +146,161 @@ xtensa-lx106-elf-gcc -I/Volumes/case-sensitive/esp-open-sdk/sdk/include -L/Volum
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH=/Volumes/case-sensitive/esp-open-sdk/xtensa-lx106-elf/bin:$PATH
 ```
+
+### Installation of the flash download tool ###
+
+[This page](http://bbs.espressif.com/viewtopic.php?f=57&t=433) gives indications about a download tool with GUI. But I did not succeed in getting it to work. So, let's install the one available [here](https://github.com/themadinventor/esptool):
+
+* create `~/DevTools/Espressif/` directory, go into it, and clone the repository:
+
+```
+$ git clone https://github.com/themadinventor/esptool.git
+```
+* the clone operation creates a subdirectory named `esptool`
 * install *pyserial*:
 
 ```
 $ sudo easy_install pyserial
 ```
+### New schematic ###
 
-#### Building an example ####
+RST and GPIO0 must be wired so that they can be set to GND when required:
 
-Did not succeed in building an example...
+![](ESP-01-02.png)
+
+In normal mode, RST is connected to 3.3V, and GPIO0 is left floating (it is connected to an internal pull-up resistor).
+
+To set ESP-01 in UART download mode:
+
+* switch RST to GND
+* switch GPI0 to GND
+* switch back RST to 3.3V
+* switch back GPI0 to floating
+
+The ESP-01 is now in UART download mode.
+
+### Test of UART download mode ###
+
+In directory `~/DevTools/Espressif/esptool/`, enter following command, using cable serial number:
+
+```
+$ ./esptool.py -p /dev/tty.usbserial-FTGDQUKC read_mac
+```
+
+A message similar to this one should be displayed:
+
+```
+Connecting...
+MAC: 18:fe:34:a0:33:c9
+```
+
+When requesting flash id:
+
+```
+$ ./esptool.py -p /dev/tty.usbserial-FTGDQUKC flash_id
+Connecting...
+Manufacturer: c8
+Device: 4013
+```
+
+It seems that the `flash_id` command switches ESP-01 back to normal mode.
+
+According to [this page](http://code.coreboot.org/p/flashrom/source/tree/HEAD/trunk/flashchips.h), flash device is a GIGADEVICE GD25Q40. According to [this page](http://www.elnec.com/en/device/GigaDevice+Semic./GD25Q40+%5BTSSOP8%5D/), this is a 4 Mbit flash device.
+
+### Backuping flash device contents ###
+
+To backup the contents of the flash device, use this command:
+
+```
+./esptool.py --port /dev/tty.usbserial-FTGDQUKC read_flash 0x00000 0x80000 ./ESP01Backup.bin
+```
+
+`0x80000` is for 512KB, i.e. 4 Mb. `./ESP01Backup.bin` is the file where memory contents is to be saved.
+
+The read operation takes about one minute.
+
+To reprogram the ESP-01 with this image:
+
+```
+./esptool.py --port /dev/tty.usbserial-FTGDQUKC write_flash 0x00000 ESP01Backup.bin
+```
+
+The write operation takes about one minute.
+
+
+## First RTOS program ##
+
+### Configuration ###
+
+Download [RTOS SDK](http://bbs.espressif.com/viewtopic.php?f=46&t=1329&p=4419). Current version is 1.3.0, 2015-11-02:
+
+```
+$ git clone https://github.com/espressif/ESP8266_RTOS_SDK.git
+```
+
+This operation creates a directory named `ESP8266_RTOS_SDK`. Move it to `~/DevTools/Espressif/`.
+
+### Building and programming test ###
+
+Decide on a directory that will be used to store source code and binary files. In my case, for this first trial, I create: 
+
+* `~/Dev/ESP-01/code/firstTrial/`
+* `~/Dev/ESP-01/bin/firstTrial/`
+
+Copy files from `~/DevTools/Espressif/ESP8266_RTOS_SDK/examples/project_template/` directory to `~/Dev/ESP-01/code/firstTrial/`. Edit `gen_misc.sh` file contents, to set `SDK_PATH` and `BIN_PATH`. For my configuration: 
+
+* `export SDK_PATH=~/DevTools/Espressif/ESP8266_RTOS_SDK`
+* `export BIN_PATH=~/Dev/ESP-01/bin/firstTrial`
+
+From a terminal, go into `~/Dev/ESP-01/code/firstTrial/`. Make `gen_misc.sh` executable. Run it. Accept default answer for every question. When build ends, a message similar to this one is displayed:
+
+```
+!!!
+SDK_PATH: /blablabla/DevTools/Espressif/ESP8266_RTOS_SDK
+BIN_PATH: /blablabla/Dev/ESP-01/bin/firstTrial
+
+No boot needed.
+Generate eagle.flash.bin and eagle.irom0text.bin successully in BIN_PATH
+eagle.flash.bin-------->0x00000
+eagle.irom0text.bin---->0x40000
+!!!
+```
+
+Now, program the ESP-01 with these files. **Beware**: be sure to backup original flash contents (see above) before proceeding!
+
+```
+$ cd ~/Dev/ESP-01/bin/firstTrial
+$ ~/DevTools/Espressif/esptool/esptool.py --port /dev/tty.usbserial-FTGDQUKC write_flash 0x00000 eagle.flash.bin 0x40000 eagle.irom0text.bin
+```
+
+The result is not really interesting, as the application outputs some information at a non supported speed.
+
+### First RTOS application ###
+
+*firsTrial* code is modified, in order to modify UART configuration. To do this, file `uart.c` is used. This file is available in `driver_lib` example. Following modifications have to be done, in order to integrate this file:
+
+* correct call to `UART_intr_handler_register()` in `uart_init_new()`, in file `uart.c`:
+
+```
+#UART_intr_handler_register(uart0_rx_intr_handler);
+UART_intr_handler_register(uart0_rx_intr_handler, NULL);
+```
+* set UART speed to `115200` in `uart_init_new()`
+* adapt application makefile, in order to compile and link `uart.c`
+* modify `user_init()`:
+
+```
+void user_init(void)
+{
+    uart_init_new();
+
+    printf("SDK version:%s\n", system_get_sdk_version());
+    printf("PB version\n");
+    wifi_set_opmode(STATIONAP_MODE);
+}
+```
+
+Then, compile, download, run and enjoy!
 
 # Reference material #
 
