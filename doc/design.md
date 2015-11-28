@@ -277,7 +277,7 @@ The result is not really interesting, as the application outputs some informatio
 
 ### First RTOS application ###
 
-*firsTrial* code is modified, in order to modify UART configuration. To do this, file `uart.c` is used. This file is available in `driver_lib` example. Following modifications have to be done, in order to integrate this file:
+*firstTrial* code is modified, in order to modify UART configuration. To do this, file `uart.c` is used. This file is available in `driver_lib` example. Following modifications have to be done, in order to integrate this file:
 
 * correct call to `UART_intr_handler_register()` in `uart_init_new()`, in file `uart.c`:
 
