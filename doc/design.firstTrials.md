@@ -1,3 +1,5 @@
+**Obsolete version, kept for reference only. Please use design.md**
+
 # Hardware and software set up #
 
 ## Prerequisites ##
