@@ -1,6 +1,6 @@
 # Hardware and software set up #
 
-**Note**: all information given herei is for a *Mac* running *OS X El Capitan* (10.11.1).
+**Note**: all information given herein is for a *Mac* running *OS X El Capitan* (10.11.1).
 
 ## Prerequisites ##
 
@@ -11,7 +11,7 @@ Following elements are required:
 * one 3.3V power supply
 * two 1k resistors
 * a way to connect above elements (breadboard, etc.)
-* a computer with a terminal emulator. For OS X, I use *CoolTerm*
+* a terminal emulator. I use [*CoolTerm*](http://freeware.the-meiers.org/)
 
 ## ESP-01 wiring ##
 
@@ -56,7 +56,7 @@ VCC is at +5V. It must not be used.
 
 ## First connection ##
 
-Connect the FTDI USB cable to a computer. Using a terminal emulator,
+Connect the FTDI USB cable to a computer. Using the terminal emulator,
 connect to the serial-over-USB port. Configuration:
 
 * 9600 b/s
@@ -65,7 +65,7 @@ connect to the serial-over-USB port. Configuration:
 * 1 stop bit
 * no flow control
 
-I use *CoolTerm* (see reference section) for terminal emulation. Device assigned to virtual serial port is `/dev/tty.usbserial-FTGDQUKC` (last part of the name is cable unique serial number. It depends on the cable.)
+Device assigned to virtual serial port is `/dev/tty.usbserial-FTGDQUKC` (last part of the name is cable unique serial number. It depends on the cable.)
 
 Send `AT+GMR` command. Reply is `0018000902-AI03` for the ESP-01 I use.
 
@@ -79,7 +79,7 @@ First step is to install the development environment. There are several ways to 
 * the [Espressif Community way](https://github.com/esp8266/esp8266-wiki/wiki/Toolchain)
 * the [open way](https://github.com/pfalcon/esp-open-sdk)
 
-For use of RTOS SDK, the open way [is recommended by Espressif](https://github.com/espressif/ESP8266_RTOS_SDK). So, we'll go with it.
+For use of RTOS SDK, the open way [is recommended by Espressif](https://github.com/espressif/ESP8266_RTOS_SDK). So, I'll go with it.
 
 ### Requirements and dependencies ###
 
@@ -111,7 +111,7 @@ $ cd /Volumes/case-sensitive
 ```
 $ git clone --recursive https://github.com/pfalcon/esp-open-sdk.git
 ```
-* build the project. We choose the separated (non-standalone) SDK:
+* build the project. I choose the separated (non-standalone) SDK:
 
 ```
 $ cd esp-open-sdk
@@ -181,7 +181,7 @@ The ESP-01 is now in UART download mode.
 
 ### Test of UART download mode ###
 
-In directory `~/DevTools/Espressif/esptool/`, enter following command, using cable serial number:
+In directory `~/DevTools/Espressif/esptool/`, enter following command, using the right cable serial number:
 
 ```
 $ ./esptool.py -p /dev/tty.usbserial-FTGDQUKC read_mac
@@ -205,7 +205,7 @@ Device: 4013
 
 It seems that the `flash_id` command switches ESP-01 back to normal mode.
 
-According to [this page](http://code.coreboot.org/p/flashrom/source/tree/HEAD/trunk/flashchips.h), flash device is a GIGADEVICE GD25Q40. According to [this page](http://www.elnec.com/en/device/GigaDevice+Semic./GD25Q40+%5BTSSOP8%5D/), this is a 4 Mbit flash device.
+According to [this page](http://code.coreboot.org/p/flashrom/source/tree/HEAD/trunk/flashchips.h), flash device is a *GIGADEVICE GD25Q40*. According to [this page](http://www.elnec.com/en/device/GigaDevice+Semic./GD25Q40+%5BTSSOP8%5D/), this is a 4 Mbit flash device.
 
 ### Backuping flash device contents ###
 
@@ -249,8 +249,10 @@ Decide on a directory that will be used to store source code and binary files. I
 
 Copy files from `~/DevTools/Espressif/ESP8266_RTOS_SDK/examples/project_template/` directory to `~/Dev/ESP-01/code/firstTrial/`. Edit `gen_misc.sh` file contents, to set `SDK_PATH` and `BIN_PATH`. For my configuration: 
 
-* `export SDK_PATH=~/DevTools/Espressif/ESP8266_RTOS_SDK`
-* `export BIN_PATH=~/Dev/ESP-01/bin/firstTrial`
+```
+export SDK_PATH=~/DevTools/Espressif/ESP8266_RTOS_SDK
+export BIN_PATH=~/Dev/ESP-01/bin/firstTrial
+```
 
 From a terminal, go into `~/Dev/ESP-01/code/firstTrial/`. Make `gen_misc.sh` executable. Run it. Accept default answer for every question. When build ends, a message similar to this one is displayed:
 
@@ -266,7 +268,7 @@ eagle.irom0text.bin---->0x40000
 !!!
 ```
 
-Now, program the ESP-01 with these files. **Beware**: be sure to backup original flash contents (see above) before proceeding!
+Now, program the ESP-01 with these files. **Beware**: be sure to backup original flash contents (see above) before proceeding, so that you can reset ESP-01 to its initial configuration, if needed!
 
 ```
 $ cd ~/Dev/ESP-01/bin/firstTrial
@@ -282,7 +284,7 @@ The result is not really interesting, as the application outputs some informatio
 * correct call to `UART_intr_handler_register()` in `uart_init_new()`, in file `uart.c`:
 
 ```
-#UART_intr_handler_register(uart0_rx_intr_handler);
+/* UART_intr_handler_register(uart0_rx_intr_handler); */
 UART_intr_handler_register(uart0_rx_intr_handler, NULL);
 ```
 * set UART speed to `115200` in `uart_init_new()`
@@ -301,6 +303,8 @@ void user_init(void)
 ```
 
 Then, compile, download, run and enjoy!
+
+[Next: Eclipse configuration](designEclipse.md)
 
 # Reference material #
 
