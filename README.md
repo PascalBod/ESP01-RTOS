@@ -2,7 +2,7 @@
 
 Current repository is structured as follows:
 
-* `code` folder: source code
+* `code` folder: source code. Main entry point for documentation is `design.md`
 * `doc` folder: all documentation (reference, design, installation, etc.)
 * `hw` folder: files relating to hardware side (schematics, etc.)
 * wiki: information about builds, delivery, etc.
