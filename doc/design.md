@@ -304,7 +304,7 @@ void user_init(void)
 
 Then, compile, download, run and enjoy!
 
-[Next: Eclipse configuration](designEclipse.md)
+[Next: How to use Eclipse](designEclipse.md)
 
 # Reference material #
 
