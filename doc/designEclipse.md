@@ -46,6 +46,6 @@ Add a new header file and associated source file, to declare and implement a tas
 
 Create and start the task in the main initialization function. Our first task implements an infinite loop, which prints a message on the serial link every second.
 
-A test shows that the message is displayed on a periodic basis. But the period is around 10 s instead of 1 s. To be checked. It could be that periods are to be defined in 10s of ms instead of ms (!).
+Build, program, run. That's it.
 
 [Back to home](design.md)

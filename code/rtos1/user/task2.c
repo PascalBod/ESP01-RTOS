@@ -11,7 +11,7 @@
 
 void task2(void *pvParameters) {
 
-	const portTickType xDelay = 1000;  // 1 s
+	const portTickType xDelay = 1000 / portTICK_RATE_MS;  // 1 s
 
     for( ;; ) {
          printf("Hello from task2!\r\n");

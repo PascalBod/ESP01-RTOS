@@ -38,7 +38,7 @@ void user_init(void)
     uart_init_new();
 
     printf("SDK version:%s\r\n", system_get_sdk_version());
-    printf("RTOS1 - V0.1\r\n");
+    printf("RTOS1 - V0.2\r\n");
     wifi_set_opmode(STATIONAP_MODE);
     xTaskCreate(task2, "tsk2", 256, NULL, 2, NULL);
 
