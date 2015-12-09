@@ -48,4 +48,10 @@ Create and start the task in the main initialization function. Our first task im
 
 Build, program, run. That's it.
 
+## Reference documentation for going on ##
+
+* [*RTOS SDK Programming Guide*](http://bbs.espressif.com/download/file.php?id=933)
+* [*RTOS SDK API Reference*](http://bbs.espressif.com/download/file.php?id=935)
+* [*FreeRTOS Quick Start Guide*](http://www.freertos.org/FreeRTOS-quick-start-guide.html)
+
 [Back to home](design.md)
