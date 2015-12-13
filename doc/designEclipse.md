@@ -8,7 +8,7 @@ Start *Eclipse*, with workspace set to `~/Dev/workspace`.
 
 ## RTOS project creation ##
 
-Let's name our first RTOS project `rtos1`. Create associated directories: `~/Dev/ESP-01/code/rtos1` and `~/Dev/ESP-01/bin/rtos1`.
+Let's name our first RTOS Eclipse project `rtos1`. Create associated directories: `~/Dev/ESP-01/code/rtos1` and `~/Dev/ESP-01/bin/rtos1`.
 
 Copy contents of `~DevTools/Espressif/ESP8266_RTOS_SDK/examples/project_template` to `rtos1`. Then, import it as a project:
 

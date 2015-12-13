@@ -4,7 +4,7 @@
 
 ## Prerequisites ##
 
-Following elements are required:
+Required elements:
 
 * one ESP-01 board
 * one FTDI TTL-232R-3V3-WE cable
@@ -54,9 +54,9 @@ VCC is at +5V. It must not be used.
 
 ![](ESP-01-1.png)
 
-## First connection ##
+## First contact ##
 
-Connect the FTDI USB cable to a computer. Using the terminal emulator,
+Connect the FTDI USB cable to the Mac. Using the terminal emulator,
 connect to the serial-over-USB port. Configuration:
 
 * 9600 b/s
@@ -67,7 +67,7 @@ connect to the serial-over-USB port. Configuration:
 
 Device assigned to virtual serial port is `/dev/tty.usbserial-FTGDQUKC` (last part of the name is cable unique serial number. It depends on the cable.)
 
-Send `AT+GMR` command. Reply is `0018000902-AI03` for the ESP-01 I use.
+Send `AT+GMR` command. For the ESP-01 I use, reply is `0018000902-AI03`.
 
 ## First firmware download ##
 
@@ -194,7 +194,7 @@ Connecting...
 MAC: 18:fe:34:a0:33:c9
 ```
 
-When requesting flash id:
+Request flash id:
 
 ```
 $ ./esptool.py -p /dev/tty.usbserial-FTGDQUKC flash_id
@@ -209,7 +209,7 @@ According to [this page](http://code.coreboot.org/p/flashrom/source/tree/HEAD/tr
 
 ### Backuping flash device contents ###
 
-To backup the contents of the flash device, use this command:
+To backup the contents of the flash device, run this command:
 
 ```
 ./esptool.py --port /dev/tty.usbserial-FTGDQUKC read_flash 0x00000 0x80000 ./ESP01Backup.bin
@@ -227,8 +227,7 @@ To reprogram the ESP-01 with this image:
 
 The write operation takes about one minute.
 
-
-## First RTOS program ##
+## First RTOS application ##
 
 ### Configuration ###
 
@@ -277,9 +276,9 @@ $ ~/DevTools/Espressif/esptool/esptool.py --port /dev/tty.usbserial-FTGDQUKC wri
 
 The result is not really interesting, as the application outputs some information at a non supported speed.
 
-### First RTOS application ###
+### First RTOS test application ###
 
-*firstTrial* code is modified, in order to modify UART configuration. To do this, file `uart.c` is used. This file is available in `driver_lib` example. Following modifications have to be done, in order to integrate this file:
+*firstTrial* code is modified, in order to set UART speed to a value supported by the terminal emulator. To do this, file `uart.c` is used. This file is available in `driver_lib` example. Following modifications have to be done, in order to integrate this file:
 
 * correct call to `UART_intr_handler_register()` in `uart_init_new()`, in file `uart.c`:
 
