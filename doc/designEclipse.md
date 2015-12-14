@@ -52,6 +52,7 @@ Build, program, run. That's it.
 
 * [*RTOS SDK Programming Guide*](http://bbs.espressif.com/download/file.php?id=933)
 * [*RTOS SDK API Reference*](http://bbs.espressif.com/download/file.php?id=935)
+* [code samples](http://bbs.espressif.com/viewforum.php?f=31)
 * [*FreeRTOS Quick Start Guide*](http://www.freertos.org/FreeRTOS-quick-start-guide.html)
 
 [Back to home](design.md)
