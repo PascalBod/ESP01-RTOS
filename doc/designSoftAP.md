@@ -1,6 +1,6 @@
 # SoftAP example #
 
-Before going further with Espressif RTOS, let's first test some Wi-Fi functions we'll use later. We'll start with configuring the ESP8266 as an access point.
+Before going further with Espressif RTOS, let's first test some Wi-Fi functions we'll use later. In this example, we configure the ESP8266 as an access point.
 
 ## Access point ##
 
@@ -11,4 +11,6 @@ Resulting source code implements a callback that intercepts Wi-Fi events that ca
 * station connection
 * station disconnection
 * probe request receipt
+
+[Home](design.md)
 

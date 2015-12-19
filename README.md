@@ -7,7 +7,6 @@ My main target, with these experimentations, is to get acquainted with the Espre
 Current repository is structured as follows:
 
 * `code` folder: source code. Main entry point for documentation is `design.md`
-* `bin` folder: binary files resulting from build
 * `doc` folder: all documentation (reference, design, installation, etc.)
 * `hw` folder: files relating to hardware side (schematics, reference documentation, etc.)
 * wiki: information about builds, delivery, etc.

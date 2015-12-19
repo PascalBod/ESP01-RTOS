@@ -2,6 +2,11 @@
 
 **Note**: all information given herein is for a *Mac* running *OS X El Capitan* (10.11.1).
 
+Direct access to other pages:
+
+* [How to use Eclipse](designEclipse.md)
+* [softAP example](designSoftAP.md)
+
 ## Prerequisites ##
 
 Required elements:

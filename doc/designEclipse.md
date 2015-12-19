@@ -50,6 +50,8 @@ Build, program, run. That's it.
 
 [Next: SoftAP example](designSoftAP.md)
 
+[Home](design.md)
+
 ## Reference documentation for going on ##
 
 * [*RTOS SDK Programming Guide*](http://bbs.espressif.com/download/file.php?id=933)
