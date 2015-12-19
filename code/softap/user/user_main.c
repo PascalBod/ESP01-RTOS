@@ -37,11 +37,15 @@ void user_set_softap_config(void) {
 }
 void user_init(void)
 {
+
+	uart_init_new();
+
     printf("SDK version:%s\r\n", system_get_sdk_version());
     printf("SoftAP - V0.1\r\n");
 
     wifi_set_opmode(STATIONAP_MODE);
 
     user_set_softap_config();
+
 }
 
