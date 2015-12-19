@@ -18,6 +18,67 @@
 
 #include "esp_common.h"
 #include "esp_libc.h"
+#include "esp_wifi.h"
+
+/*
+ * Global variables used by functions. They are declared here so that they do
+ * not consume space from stack.
+ */
+Event_SoftAPMode_StaConnected_t *info_staConnected_ptr;
+Event_SoftAPMode_StaDisconnected_t *info_staDisconnected_ptr;
+Event_SoftAPMode_ProbeReqRecved_t *info_probeReqRecved_ptr;
+
+/**
+ * Callback for Wi-Fi events.
+ */
+void handle_wifi_event(System_Event_t *event) {
+
+	switch(event->event_id) {
+	case EVENT_STAMODE_SCAN_DONE:
+	case EVENT_STAMODE_CONNECTED:
+	case EVENT_STAMODE_DISCONNECTED:
+	case EVENT_STAMODE_AUTHMODE_CHANGE:
+	case EVENT_STAMODE_GOT_IP:
+	case EVENT_STAMODE_DHCP_TIMEOUT:
+		printf("*** Inconsistent event: %d\r\n", event->event_id);
+		break;
+	case EVENT_SOFTAPMODE_STACONNECTED:
+		info_staConnected_ptr = &(event->event_info.sta_connected);
+		printf("*** Connected station: %x.%x.%x.%x.%x.%x - %d\r\n",
+				info_staConnected_ptr->mac[0],
+				info_staConnected_ptr->mac[1],
+				info_staConnected_ptr->mac[2],
+				info_staConnected_ptr->mac[3],
+				info_staConnected_ptr->mac[4],
+				info_staConnected_ptr->mac[5],
+				info_staConnected_ptr->aid);
+		break;
+	case EVENT_SOFTAPMODE_STADISCONNECTED:
+		info_staDisconnected_ptr = &(event->event_info.sta_disconnected);
+		printf("*** Disconnected station: %x.%x.%x.%x.%x.%x - %d\r\n",
+				info_staDisconnected_ptr->mac[0],
+				info_staDisconnected_ptr->mac[1],
+				info_staDisconnected_ptr->mac[2],
+				info_staDisconnected_ptr->mac[3],
+				info_staDisconnected_ptr->mac[4],
+				info_staDisconnected_ptr->mac[5],
+				info_staDisconnected_ptr->aid);
+		break;
+	case EVENT_SOFTAPMODE_PROBEREQRECVED:
+		info_probeReqRecved_ptr = &(event->event_info.ap_probereqrecved);
+		printf("*** Probe request received: %x.%x.%x.%x.%x.%x - %d\r\n",
+				info_probeReqRecved_ptr->mac[0],
+				info_probeReqRecved_ptr->mac[1],
+				info_probeReqRecved_ptr->mac[2],
+				info_probeReqRecved_ptr->mac[3],
+				info_probeReqRecved_ptr->mac[4],
+				info_probeReqRecved_ptr->mac[5],
+				info_probeReqRecved_ptr->rssi);
+		break;
+	default:
+		printf("*** Unknown event: %d", event->event_id);
+	}
+}
 
 void user_set_softap_config(void) {
    struct softap_config config;
@@ -41,11 +102,12 @@ void user_init(void)
 	uart_init_new();
 
     printf("SDK version:%s\r\n", system_get_sdk_version());
-    printf("SoftAP - V0.1\r\n");
+    printf("SoftAP - V0.3\r\n");
 
     wifi_set_opmode(STATIONAP_MODE);
 
     user_set_softap_config();
+    wifi_set_event_handler_cb(handle_wifi_event);
 
 }
 
