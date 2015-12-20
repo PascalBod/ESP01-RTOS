@@ -12,5 +12,7 @@ Resulting source code implements a callback that intercepts Wi-Fi events that ca
 * station disconnection
 * probe request receipt
 
+[Next: inter-task communication](designInterTask.md)
+
 [Home](design.md)
 
