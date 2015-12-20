@@ -16,9 +16,31 @@
  *
  */
 
-#ifndef INCLUDE_TASK2_H_
-#define INCLUDE_TASK2_H_
+/**
+ * Message identifiers.
+ */
+typedef enum {
+	MSG_COUNTED = 0,
+} MESSAGE_ID;
 
-void vTask2(void *pvParameters);
+/**
+ * Message sent by task 1.
+ */
+typedef struct {
+	uint8 ucValue;
+} Msg_Counted_t;
 
-#endif /* INCLUDE_TASK2_H_ */
+/**
+ * Data part of a message.
+ */
+typedef union {
+	Msg_Counted_t xCounted;
+} Msg_data_u;
+
+/**
+ * Message structure.
+ */
+struct ITMessage {
+	MESSAGE_ID ucId;
+	Msg_data_u xData;
+};

@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef DRIVER_MISCPB_H_
-#define DRIVER_MISCPB_H_
+#ifndef INCLUDE_MISCPB_H_
+#define INCLUDE_MISCPB_H_
 
 #ifndef true
 #define true 1
@@ -27,4 +27,4 @@
 #define false 0
 #endif
 
-#endif /* DRIVER_MISCPB_H_ */
+#endif /* INCLUDE_MISCPB_H_ */

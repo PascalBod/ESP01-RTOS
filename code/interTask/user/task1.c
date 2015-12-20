@@ -25,12 +25,12 @@ const portTickType xTimerDelay = 3000 / portTICK_RATE_MS;  // 3 s
 const portTickType xTaskDelay = 60000 / portTICK_RATE_MS;  // 60 s
 
 xTimerHandle xTimer;
-int timerId;
-portBASE_TYPE rsTimer;
+uint8 ucTimerId;
+portBASE_TYPE xRetStatusTimer;
 
 /**
  * Instead of using an infinite loop and vTaskDelay() as in rtos1 example,
- * we use an auto-reload timer.
+ * we use an auto-reload timer, just to check how to use a FreeRTOS timer.
  */
 
 /**
@@ -44,15 +44,16 @@ void vTimerCallback(xTimerHandle pxTimer) {
 
 /**
  * Task 1.
+ *
  */
-void task1(void *pvParameters) {
+void vTask1(void *pvParameters) {
 
-	timerId = 1;
+	ucTimerId = 1;
 	xTimer = xTimerCreate(
 			"timer1",
 			xTimerDelay,
 			pdTRUE,
-			(void *)timerId,
+			(void *)ucTimerId,
 			vTimerCallback);
 
 	if (xTimer == NULL) {
@@ -60,8 +61,8 @@ void task1(void *pvParameters) {
 		return;
 	}
 	// At this stage, we got a timer. Try to start it.
-	rsTimer = xTimerStart(xTimer, 0);
-	if (rsTimer != pdPASS) {
+	xRetStatusTimer = xTimerStart(xTimer, 0);
+	if (xRetStatusTimer != pdPASS) {
 		printf("*** timer1 was not started.\r\n");
 		xTimerDelete(xTimer, 0);
 		return;

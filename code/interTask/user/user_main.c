@@ -23,12 +23,16 @@
 void user_init(void)
 {
 
+	// Prepare the UART for transmitting trace messages.
 	uart_init_new();
 
     printf("SDK version:%s\r\n", system_get_sdk_version());
     printf("InterTask - V0.1\r\n");
 
-    xTaskCreate(task1, "task1", 512, NULL, 2, NULL);
+    // Create task2's queue.
+
+
+    xTaskCreate(vTask1, "task1", 512, NULL, 2, NULL);
 
 }
 
