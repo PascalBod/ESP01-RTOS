@@ -16,9 +16,18 @@
  *
  */
 
+#include "freertos/FreeRTOS.h"
+#include "freertos/queue.h"
 #include "esp_common.h"
 
+#include "message.h"
 #include "task1.h"
+#include "task2.h"
+
+/**
+ * Local global variables.
+ */
+static xQueueHandle xTask2Queue;
 
 void user_init(void)
 {
@@ -27,12 +36,18 @@ void user_init(void)
 	uart_init_new();
 
     printf("SDK version:%s\r\n", system_get_sdk_version());
-    printf("InterTask - V0.1\r\n");
+    printf("InterTask - V0.2\r\n");
 
-    // Create task2's queue.
+    // Create task 2's queue. Space for 3 messages only.
+    xTask2Queue = xQueueCreate(3, sizeof(ITMessage_t));
+    if (xTask2Queue == 0) {
+    	printf("*** Can't create task 2's queue.\r\n");
+    	return;
+    }
 
-
-    xTaskCreate(vTask1, "task1", 512, NULL, 2, NULL);
+    // Start tasks.
+    xTaskCreate(vTask1, "task1", 512, &xTask2Queue, 2, NULL);
+    xTaskCreate(vTask2, "task2", 256, &xTask2Queue, 2, NULL);
 
 }
 

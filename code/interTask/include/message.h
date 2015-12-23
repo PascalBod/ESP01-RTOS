@@ -20,10 +20,17 @@
 #define INCLUDE_MESSAGE_H_
 
 /**
+ * A message is made of an identifier (or message type), and of some data,
+ * which structure depends on message identifier. Data part is declared as
+ * a union, which contains different data structures.
+ */
+
+/**
  * Message identifiers.
  */
 typedef enum {
-	MSG_COUNTED = 0,
+	MSG_TOBECOUNTED = 0,
+	MSG_WAITMSG,
 } MESSAGE_ID;
 
 /**
@@ -31,21 +38,21 @@ typedef enum {
  */
 typedef struct {
 	uint8 ucValue;
-} Msg_Counted_t;
+} Msg_ToBeCounted_t;
 
 /**
- * Data part of a message.
+ * Data parts of messages.
  */
 typedef union {
-	Msg_Counted_t xCounted;
+	Msg_ToBeCounted_t xToBeCounted;
 } Msg_data_u;
 
 /**
  * Message structure.
  */
-struct ITMessage {
+typedef struct {
 	MESSAGE_ID ucId;
 	Msg_data_u xData;
-};
+} ITMessage_t;
 
 #endif /* INCLUDE_MESSAGE_H_ */

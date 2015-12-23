@@ -5,7 +5,8 @@
 Direct access to other pages:
 
 * [How to use Eclipse](designEclipse.md)
-* [softAP example](designSoftAP.md)
+* [SoftAP example](designSoftAP.md)
+* [Intertask communication example](designInterTask.md)
 
 ## Prerequisites ##
 

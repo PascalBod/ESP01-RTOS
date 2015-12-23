@@ -17,16 +17,27 @@
  */
 
 #include "freertos/FreeRTOS.h"
+#include "freertos/queue.h"
 #include "freertos/timers.h"
+#include "freertos/task.h"
 
 #include "miscPB.h"
+#include "message.h"
+
+#define UINT8_MAX 255
 
 const portTickType xTimerDelay = 3000 / portTICK_RATE_MS;  // 3 s
 const portTickType xTaskDelay = 60000 / portTICK_RATE_MS;  // 60 s
 
-xTimerHandle xTimer;
-uint8 ucTimerId;
-portBASE_TYPE xRetStatusTimer;
+// Timer used to send a message on a periodic basis.
+static xTimerHandle xTimer;
+static uint8 ucTimerId;
+static portBASE_TYPE xRetStatusTimer;
+// Pointer to task 2's queue.
+static xQueueHandle *pxTaskQueue;
+// Message to send to task 2's queue.
+static ITMessage_t xMessage;
+static portBASE_TYPE xRetStatusQueue;
 
 /**
  * Instead of using an infinite loop and vTaskDelay() as in rtos1 example,
@@ -39,25 +50,49 @@ portBASE_TYPE xRetStatusTimer;
 void vTimerCallback(xTimerHandle pxTimer) {
 
 	printf("*** Task 1 timer expired.\r\n");
+	//Send message to task 2.
+	xRetStatusQueue = xQueueSendToBack(
+			*pxTaskQueue,
+			&xMessage,
+			0
+			);
+	if (xRetStatusQueue == errQUEUE_FULL) {
+		print("*** Can't write message to queue.\r\n");
+	}
+	if (xMessage.xData.xToBeCounted.ucValue == UINT8_MAX) {
+		xMessage.xData.xToBeCounted.ucValue = 0;
+	} else {
+		xMessage.xData.xToBeCounted.ucValue++;
+	}
 
 }
 
 /**
  * Task 1.
  *
+ * Parameter is a pointer to task 2's queue.
+ *
  */
 void vTask1(void *pvParameters) {
 
+	pxTaskQueue = pvParameters;
+
+	// Initialize message.
+	xMessage.ucId = MSG_TOBECOUNTED;
+	xMessage.xData.xToBeCounted.ucValue = 0;
+
+	// Create timer.
 	ucTimerId = 1;
 	xTimer = xTimerCreate(
 			"timer1",
 			xTimerDelay,
 			pdTRUE,
-			(void *)ucTimerId,
+			(void *)(&ucTimerId),
 			vTimerCallback);
 
 	if (xTimer == NULL) {
 		printf("*** timer1 was not created.\r\n");
+		vTaskDelete(NULL);
 		return;
 	}
 	// At this stage, we got a timer. Try to start it.
@@ -65,6 +100,7 @@ void vTask1(void *pvParameters) {
 	if (xRetStatusTimer != pdPASS) {
 		printf("*** timer1 was not started.\r\n");
 		xTimerDelete(xTimer, 0);
+		vTaskDelete(NULL);
 		return;
 	}
 	// At this stage, the timer has been started.
@@ -73,6 +109,11 @@ void vTask1(void *pvParameters) {
 	// Do not exit task.
 	while(true) {
 		vTaskDelay(xTaskDelay);
+		// Printing the message below makes the application crash.
+		// Increased stack but this did not correct the problem.
+		// To be investigated.
+		//print("*** Task 1 loop.\r\n");
+
 	}
 
 }
