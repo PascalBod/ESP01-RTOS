@@ -24,18 +24,21 @@
 #include "miscPB.h"
 #include "message.h"
 
-#define UINT8_MAX 255
+// Transmit message period.
+static const portTickType xTimerDelay = 3000 / portTICK_RATE_MS;  // 3 s
 
-const portTickType xTimerDelay = 3000 / portTICK_RATE_MS;  // 3 s
-const portTickType xTaskDelay = 60000 / portTICK_RATE_MS;  // 60 s
+// Task 1 wait period.
+static const portTickType xTaskDelay = 60000 / portTICK_RATE_MS;  // 60 s
 
-// Timer used to send a message on a periodic basis.
+// Timer used to send a message to task 2 on a periodic basis.
 static xTimerHandle xTimer;
 static uint8 ucTimerId;
 static portBASE_TYPE xRetStatusTimer;
+
 // Pointer to task 2's queue.
 static xQueueHandle *pxTaskQueue;
-// Message to send to task 2's queue.
+
+// Message sent to task 2's queue.
 static ITMessage_t xMessage;
 static portBASE_TYPE xRetStatusQueue;
 
@@ -47,7 +50,7 @@ static portBASE_TYPE xRetStatusQueue;
 /**
  * Timer callback function.
  */
-void vTimerCallback(xTimerHandle pxTimer) {
+static void vTimerCallback(xTimerHandle pxTimer) {
 
 	printf("*** Task 1 timer expired.\r\n");
 	//Send message to task 2.
@@ -57,7 +60,7 @@ void vTimerCallback(xTimerHandle pxTimer) {
 			0
 			);
 	if (xRetStatusQueue == errQUEUE_FULL) {
-		print("*** Can't write message to queue.\r\n");
+		print("*** Can't write message to queue 1.\r\n");
 	}
 	if (xMessage.xData.xToBeCounted.ucValue == UINT8_MAX) {
 		xMessage.xData.xToBeCounted.ucValue = 0;
@@ -69,6 +72,9 @@ void vTimerCallback(xTimerHandle pxTimer) {
 
 /**
  * Task 1.
+ *
+ * Starts the auto-reload timer which sends a message
+ * to task 2 on a periodic basis.
  *
  * Parameter is a pointer to task 2's queue.
  *
@@ -86,7 +92,7 @@ void vTask1(void *pvParameters) {
 	xTimer = xTimerCreate(
 			"timer1",
 			xTimerDelay,
-			pdTRUE,
+			pdTRUE,					// auto-reload
 			(void *)(&ucTimerId),
 			vTimerCallback);
 

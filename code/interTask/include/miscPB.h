@@ -27,4 +27,6 @@
 #define false 0
 #endif
 
+#define UINT8_MAX 255
+
 #endif /* INCLUDE_MISCPB_H_ */

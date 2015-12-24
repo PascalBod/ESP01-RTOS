@@ -36,7 +36,7 @@ void user_init(void)
 	uart_init_new();
 
     printf("SDK version:%s\r\n", system_get_sdk_version());
-    printf("InterTask - V0.2\r\n");
+    printf("InterTask - V0.3\r\n");
 
     // Create task 2's queue. Space for 3 messages only.
     xTask2Queue = xQueueCreate(3, sizeof(ITMessage_t));

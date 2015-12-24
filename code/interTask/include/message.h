@@ -30,7 +30,7 @@
  */
 typedef enum {
 	MSG_TOBECOUNTED = 0,
-	MSG_WAITMSG,
+	MSG_EXITIDLE,
 } MESSAGE_ID;
 
 /**
@@ -45,6 +45,7 @@ typedef struct {
  */
 typedef union {
 	Msg_ToBeCounted_t xToBeCounted;
+	void *pxNoData;
 } Msg_data_u;
 
 /**
