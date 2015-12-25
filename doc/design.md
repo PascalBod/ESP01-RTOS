@@ -2,6 +2,12 @@
 
 **Note**: all information given herein is for a *Mac* running *OS X El Capitan* (10.11.1).
 
+Direct access to other pages:
+
+* [How to use Eclipse](designEclipse.md)
+* [First RTOS use: SoftAP example](designSoftAP.md)
+* [Non-trivial RTOS use: Intertask communication example](designInterTask.md)
+
 ## Prerequisites ##
 
 Required elements:

@@ -1,1 +1,6 @@
+# OS X specific
 .DS_Store
+
+# Do not save binary files
+bin/
+.output/

@@ -15,21 +15,21 @@ Copy contents of `~DevTools/Espressif/ESP8266_RTOS_SDK/examples/project_template
 * **File / Import... / C/C++ / Existing Code as Makefile Project**
 * project name: `rtos1`
 * existing code location: `~/Dev/ESP-01/code/rtos1`
-* languages: `C` and `C++`
+* languages: `C`
 * toolchain for indexer settings: `<none>`
 
-Modify project properties (replacing `<username>` by the right value):
+Modify project properties:
 
 * for **C/C++ General / Paths and Symbols / GNU C**, add following include paths:
 
 ```
-/Users/<username>/DevTools/Espressif/ESP8266_RTOS_SDK/include
-/Users/<username>/DevTools/Espressif/ESP8266_RTOS_SDK/include/espressif
+${HOME}/DevTools/Espressif/ESP8266_RTOS_SDK/include
+${HOME}/DevTools/Espressif/ESP8266_RTOS_SDK/include/espressif
 ```
 * for **C/C++ Build**, uncheck **Use default build command**, and set build command to `make BOOT=new APP=0 SPI_SPEED=2 SPI_MODE=QIO SPI_SIZE_MAP=0`
 * for **C/C++ Build / Environment**, add those variables:
-  * `SDK_PATH`: `/Users/<username>/DevTools/Espressif/ESP8266_RTOS_SDK`
-  * `BIN_PATH`: `/Users/<username>/Dev/ESP-01/bin/rtos1`
+  * `SDK_PATH`: `${HOME}/DevTools/Espressif/ESP8266_RTOS_SDK`
+  * `BIN_PATH`: `${HOME}/Dev/ESP-01/bin/rtos1`
   * `PATH`: `/Volumes/case-sensitive/esp-open-sdk/xtensa-lx106-elf/bin:/usr/local/opt/gnu-sed/libexec/gnubin:${PATH}`
 
 To (re)build the binaries: **Project / Build Project**
@@ -48,10 +48,15 @@ Create and start the task in the main initialization function. Our first task im
 
 Build, program, run. That's it.
 
+[Next: SoftAP example](designSoftAP.md)
+
+[Home](design.md)
+
 ## Reference documentation for going on ##
 
 * [*RTOS SDK Programming Guide*](http://bbs.espressif.com/download/file.php?id=933)
 * [*RTOS SDK API Reference*](http://bbs.espressif.com/download/file.php?id=935)
+* [code samples](http://bbs.espressif.com/viewforum.php?f=31)
 * [*FreeRTOS Quick Start Guide*](http://www.freertos.org/FreeRTOS-quick-start-guide.html)
 
 [Back to home](design.md)

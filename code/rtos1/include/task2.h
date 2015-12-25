@@ -19,6 +19,6 @@
 #ifndef INCLUDE_TASK2_H_
 #define INCLUDE_TASK2_H_
 
-void task2(void *pvParameters);
+void vTask2(void *pvParameters);
 
 #endif /* INCLUDE_TASK2_H_ */
