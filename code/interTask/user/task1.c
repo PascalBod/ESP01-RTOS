@@ -115,10 +115,7 @@ void vTask1(void *pvParameters) {
 	// Do not exit task.
 	while(true) {
 		vTaskDelay(xTaskDelay);
-		// Printing the message below makes the application crash.
-		// Increased stack but this did not correct the problem.
-		// To be investigated.
-		//print("*** Task 1 loop.\r\n");
+		printf("*** Task 1 loop.\r\n");
 
 	}
 

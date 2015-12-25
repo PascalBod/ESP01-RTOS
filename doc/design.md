@@ -5,8 +5,8 @@
 Direct access to other pages:
 
 * [How to use Eclipse](designEclipse.md)
-* [SoftAP example](designSoftAP.md)
-* [Intertask communication example](designInterTask.md)
+* [First RTOS use: SoftAP example](designSoftAP.md)
+* [Non-trivial RTOS use: Intertask communication example](designInterTask.md)
 
 ## Prerequisites ##
 
