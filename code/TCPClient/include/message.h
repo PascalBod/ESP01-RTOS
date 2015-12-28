@@ -29,13 +29,18 @@
  * Message identifiers.
  */
 typedef enum {
-	MSG_TOBECOUNTED = 0,
-	MSG_EXITIDLE,
+	MSG_GOT_IP,
+	MSG_WIFI_DISCONN,
+	MSG_WIFI_ENDW,
+	MSG_WIFI_OK,
+	MSG_WIFI_KO,
 } MESSAGE_ID;
 
 /**
- * Message sent by task 1.
+ * Data for messages sent by Wi-Fi station task: none.
  */
+
+
 typedef struct {
 	uint8 ucValue;
 } Msg_ToBeCounted_t;

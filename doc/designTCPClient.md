@@ -90,4 +90,10 @@ Task automaton is below:
 
 The **counter** task increments a counter every 10 seconds, and sends resulting value to the **TCP client** task, in an `MSG_COUNTER` message.
 
+### A few words about code ###
+
+We do not use any dynamic memory allocation (e.g. *malloc*), as this can lead to memory leak, memory fragmentation, and non-deterministic response time (this later point not being of real importance in our case).
+
+In order to reduce stack needs for tasks, most variables are declared as global ones.
+
 [Home](design.md)

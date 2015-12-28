@@ -38,14 +38,14 @@ void user_init(void)
 	uart_init_new();
 
     printf("SDK version:%s\r\n", system_get_sdk_version());
-    printf("TCPClient - V0.1\r\n");
+    printf("TCPClient - V0.2\r\n");
 
     wifi_set_opmode(STATION_MODE);
 
     // Create TCP client's queue. Space for 3 messages only.
     xTCPClientTaskQueue = xQueueCreate(3, sizeof(ITMessage_t));
     if (xTCPClientTaskQueue == 0) {
-    	printf("*** Can't create task TCP client's queue.\r\n");
+    	printf("*** Can't create TCP client task's queue.\r\n");
     	return;
     }
 

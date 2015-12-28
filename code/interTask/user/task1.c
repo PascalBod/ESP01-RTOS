@@ -60,7 +60,7 @@ static void vTimerCallback(xTimerHandle pxTimer) {
 			0
 			);
 	if (xRetStatusQueue == errQUEUE_FULL) {
-		print("*** Can't write message to queue 1.\r\n");
+		printf("*** Can't write message to queue 1.\r\n");
 	}
 	if (xMessage.xData.xToBeCounted.ucValue == UINT8_MAX) {
 		xMessage.xData.xToBeCounted.ucValue = 0;
