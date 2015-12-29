@@ -1,6 +1,6 @@
 # ESP-01 #
 
-This repository contains material resulting from my experimentations with the ESP-01 board, based on the ESP8266.
+This project contains material resulting from my experimentations with the ESP-01 board, based on the ESP8266.
 
 My main target, with these experimentations, is to get acquainted with the Espressif RTOS SDK.
 
