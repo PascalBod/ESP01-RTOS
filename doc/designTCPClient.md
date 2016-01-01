@@ -113,7 +113,7 @@ With above prerequisites fulfilled, follow these steps:
 * in file `WiFiStationTask.c`, set `AP_SSID` and `AP_PASSWORD` to the values required by the Wi-Fi access point you'll use
 * in file `TCPClientTask.c`, set `REMOTE_IP` and `REMOTE_PORT` to the values required by the remote machine you'll use
 * build *TCP client* and flash the ESP-01 with resulting binary
-* build *TCPServer* from project *ESP-01-TCPServer* after having set `inPort` in file `tcpserver.go` to the right value
+* build *TCPServer* from project *ESP01-TCPServer* after having set `inPort` in file `tcpserver.go` to the right value
 * copy resulting binary to remote machine, and run it
 * power on ESP-01, if not done yet. Check trace messages available on serial line.
 
