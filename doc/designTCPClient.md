@@ -100,4 +100,21 @@ We do not use any dynamic memory allocation (e.g. *malloc*), as this can lead to
 
 In order to reduce stack needs for tasks, most variables are declared as global ones.
 
+## Installation ##
+
+To install and test *TCP client*, you have to set up following configuration:
+
+* the ESP-01, to be programmed with a version of *TCP client* correctly configured (see below)
+* a Wi-Fi access point on which the ESP-01 can register
+* a machine with an IP address reachable by the ESP-01. For instance, this can be a PC on your home LAN, the Wi-Fi access point being your home router. Or this can be a server on the Internet, with a public static IP address.
+
+With above prerequisites fulfilled, follow these steps:
+
+* in file `WiFiStationTask.c`, set `AP_SSID` and `AP_PASSWORD` to the values required by the Wi-Fi access point you'll use
+* in file `TCPClientTask.c`, set `REMOTE_IP` and `REMOTE_PORT` to the values required by the remote machine you'll use
+* build *TCP client* and flash the ESP-01 with resulting binary
+* build *TCPServer* from project *ESP-01-TCPServer* after having set `inPort` in file `tcpserver.go` to the right value
+* copy resulting binary to remote machine, and run it
+* power on ESP-01, if not done yet. Check trace messages available on serial line.
+
 [Home](design.md)
