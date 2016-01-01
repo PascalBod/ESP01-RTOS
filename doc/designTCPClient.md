@@ -80,6 +80,8 @@ The application is made of following tasks:
 
 The **Wi-Fi station** task tries to connect to the access point. When it succeeds, it sends an `MSG_WIFI_OK` message to the **TCP client** task. When Wi-Fi connectivity is lost, an `MSG_WIFI_KO` message is sent to the **TCP client** task.
 
+When Wi-Fi connectivity is not available, or disappears, we do not try to reconnect immediately. We first wait for a predefined delay. Why do this, while we could let the ESP8266 try reconnecting (it does it automatically)? Because we wanted our code to be ready to support low-power requirements: during wait periods between two reconnection attempts, we could switch the ESP8266 to a sleep mode.
+
 Task automaton is below:
 ![](wiFiStation-task1-automaton.png)
 
@@ -89,6 +91,8 @@ Task automaton is below:
 ![](TCPclient-task1-automaton.png)
 
 The **counter** task increments a counter every 10 seconds, and sends resulting value to the **TCP client** task, in an `MSG_COUNTER` message.
+
+There is no buffering, in this simple example. While Wi-Fi connectivity is not available, or while TCP socket is not open, counter information is lost.
 
 ### A few words about code ###
 

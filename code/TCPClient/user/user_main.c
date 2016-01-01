@@ -16,6 +16,7 @@
  *
  */
 
+#include <taskMessage.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
@@ -23,8 +24,9 @@
 #include "esp_common.h"
 
 #include "WiFiStationTask.h"
+#include "TCPClientTask.h"
+#include "counterTask.h"
 
-#include "message.h"
 
 /**
  * Local global variables.
@@ -38,7 +40,7 @@ void user_init(void)
 	uart_init_new();
 
     printf("SDK version:%s\r\n", system_get_sdk_version());
-    printf("TCPClient - V0.2\r\n");
+    printf("TCPClient - V0.5\r\n");
 
     wifi_set_opmode(STATION_MODE);
 
@@ -50,7 +52,9 @@ void user_init(void)
     }
 
     // Start tasks.
-    xTaskCreate(vWiFiStationTask, "WiFiStationTask", 512, &xTCPClientTaskQueue, 2, NULL);
+    xTaskCreate(vWiFiStationTask, "WiFiStationTask", 256, &xTCPClientTaskQueue, 2, NULL);
+    xTaskCreate(vTCPClientTask, "TCPClientTask", 256, &xTCPClientTaskQueue, 2, NULL);
+    xTaskCreate(vCounterTask, "counterTask", 256, &xTCPClientTaskQueue, 2, NULL);
 
 }
 

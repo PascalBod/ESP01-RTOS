@@ -30,8 +30,6 @@
 
 #include "uart.h"
 
-#include "miscPB.h"
-
 enum {
     UART_EVENT_RX_CHAR,
     UART_EVENT_MAX
@@ -48,7 +46,7 @@ xQueueHandle xQueueUart;
 LOCAL STATUS
 uart_tx_one_char(uint8 uart, uint8 TxChar)
 {
-    while (true) {
+    while (1) {
         uint32 fifo_cnt = READ_PERI_REG(UART_STATUS(uart)) & (UART_TXFIFO_CNT << UART_TXFIFO_CNT_S);
 
         if ((fifo_cnt >> UART_TXFIFO_CNT_S & UART_TXFIFO_CNT) < 126) {

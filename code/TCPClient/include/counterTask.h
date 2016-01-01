@@ -16,17 +16,9 @@
  *
  */
 
-#ifndef INCLUDE_MISCPB_H_
-#define INCLUDE_MISCPB_H_
+#ifndef INCLUDE_COUNTERTASK_H_
+#define INCLUDE_COUNTERTASK_H_
 
-#ifndef true
-#define true 1
-#endif
+void vCounterTask(void *pvParameters);
 
-#ifndef false
-#define false 0
-#endif
-
-#define UINT8_MAX 255
-
-#endif /* INCLUDE_MISCPB_H_ */
+#endif /* INCLUDE_COUNTERTASK_H_ */

@@ -16,8 +16,6 @@
  *
  */
 
-#include "c_types.h"
-
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
@@ -25,11 +23,11 @@
 
 #include "esp_common.h"
 
-#include "message.h"
+#include "taskMessage.h"
 
 // AP to connect to.
-#define AP_SSID     "PBAP"
-#define AP_PASSWORD "passwordpbap"
+#define AP_SSID     "SetSSIDHere"
+#define AP_PASSWORD "SetPasswordHere"
 
 // Automaton states.
 typedef enum {
@@ -67,6 +65,8 @@ static uint8 ucRetStatusBool;
 static xTimerHandle xTimer;
 static uint8 ucTimerId;
 static portBASE_TYPE xRetStatusTimer;
+// To check task stack.
+static portBASE_TYPE xStackMark;
 
 /**
  * Timer callback function.
@@ -185,6 +185,7 @@ void vWiFiStationTask(void *pvParameters) {
 	// Initialize messages: no data for them.
 	xSentMessage.xData.pxNoData = NULL;
 	xWiFiMessage.xData.pxNoData = NULL;
+	xTimerMessage.xData.pxNoData = NULL;
 
 	// Create timer we will use to trigger reconnection attempts.
 	xTimer = xTimerCreate(
@@ -235,6 +236,9 @@ void vWiFiStationTask(void *pvParameters) {
 			printf("*** Wi-Fi *** End of wait on task's queue.\r\n");
 			continue;
 		}
+		// Display minimum stack available space.
+		xStackMark = uxTaskGetStackHighWaterMark(NULL);
+		printf("*** Wi-Fi *** HWM: %d.\r\n", xStackMark);
 
 		switch(ucCurrentState) {
 
@@ -253,6 +257,7 @@ void vWiFiStationTask(void *pvParameters) {
 					// In a production-class application, we would put here
 					// some code to go back to a consistent global state.
 				}
+				// Next state.
 				ucCurrentState = STA_WAIT_DISCONN;
 				break;
 			case MSG_WIFI_DISCONN:

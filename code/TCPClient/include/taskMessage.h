@@ -16,8 +16,10 @@
  *
  */
 
-#ifndef INCLUDE_MESSAGE_H_
-#define INCLUDE_MESSAGE_H_
+#ifndef INCLUDE_TASKMESSAGE_H_
+#define INCLUDE_TASKMESSAGE_H_
+
+#include "c_types.h"
 
 /**
  * A message is made of an identifier (or message type), and of some data,
@@ -29,27 +31,35 @@
  * Message identifiers.
  */
 typedef enum {
-	MSG_GOT_IP,
-	MSG_WIFI_DISCONN,
-	MSG_WIFI_ENDW,
+	MSG_GOT_IP,        // Internal to Wi-Fi station task.
+	MSG_WIFI_DISCONN,  // Internal to Wi-Fi station task.
+	MSG_WIFI_ENDW,     // Internal to Wi-Fi station task.
 	MSG_WIFI_OK,
 	MSG_WIFI_KO,
+	MSG_COUNTER,
+	MSG_TCP_ENDW,      // Internal to TCP client task.
 } MESSAGE_ID;
 
 /**
  * Data for messages sent by Wi-Fi station task: none.
  */
 
+/**
+ * Data for messages sent by TCP client task: none.
+ */
 
+/**
+ * Data for messages sent by counter task.
+ */
 typedef struct {
 	uint8 ucValue;
-} Msg_ToBeCounted_t;
+} Msg_data_counter_t;
 
 /**
  * Data parts of messages.
  */
 typedef union {
-	Msg_ToBeCounted_t xToBeCounted;
+	Msg_data_counter_t xCounter;
 	void *pxNoData;
 } Msg_data_u;
 
@@ -61,4 +71,4 @@ typedef struct {
 	Msg_data_u xData;
 } ITMessage_t;
 
-#endif /* INCLUDE_MESSAGE_H_ */
+#endif /* INCLUDE_TASKMESSAGE_H_ */

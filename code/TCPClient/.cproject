@@ -30,6 +30,8 @@
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1438099692" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${HOME}/DevTools/Espressif/ESP8266_RTOS_SDK/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${HOME}/DevTools/Espressif/ESP8266_RTOS_SDK/include/espressif&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${HOME}/DevTools/Espressif/ESP8266_RTOS_SDK/include/lwip&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${HOME}/DevTools/Espressif/ESP8266_RTOS_SDK/include/lwip/ipv4&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TCPClient/include}&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1670737277" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
