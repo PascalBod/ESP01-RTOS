@@ -17,106 +17,94 @@
  */
 
 #include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "freertos/queue.h"
 #include "freertos/timers.h"
-#include "freertos/task.h"
 
-#include "miscPB.h"
-#include "message.h"
+#include "esp_common.h"
 
-// Transmit message period.
-static const portTickType xTimerDelay = 3000 / portTICK_RATE_MS;  // 3 s
+#include "taskMessage.h"
 
-// Task 1 wait period.
-static const portTickType xTaskDelay = 60000 / portTICK_RATE_MS;  // 60 s
+// Counter message period.
+static const portTickType COUNTER_PERIOD = 30000 / portTICK_RATE_MS;  // 30 s
+// Task wait period.
+static const portTickType TASK_PERIOD = 180000 / portTICK_RATE_MS;  // 3 min
 
-// Timer used to send a message to task 2 on a periodic basis.
+// Pointer to TCP client's queue.
+static xQueueHandle *pxTCPClientTaskQueue;
+// Message sent by us.
+static ITMessage_t xSentMessage;
+static portBASE_TYPE xRetStatusQueue;
+// Timer.
 static xTimerHandle xTimer;
 static uint8 ucTimerId;
 static portBASE_TYPE xRetStatusTimer;
-
-// Pointer to task 2's queue.
-static xQueueHandle *pxTaskQueue;
-
-// Message sent to task 2's queue.
-static ITMessage_t xMessage;
-static portBASE_TYPE xRetStatusQueue;
-
-/**
- * Instead of using an infinite loop and vTaskDelay() as in rtos1 example,
- * we use an auto-reload timer, just to check how to use a FreeRTOS timer.
- */
 
 /**
  * Timer callback function.
  */
 static void vTimerCallback(xTimerHandle pxTimer) {
 
-	printf("*** Task 1 timer expired.\r\n");
-	//Send message to task 2.
 	xRetStatusQueue = xQueueSendToBack(
-			*pxTaskQueue,
-			&xMessage,
+			*pxTCPClientTaskQueue,
+			&xSentMessage,
 			0
 			);
 	if (xRetStatusQueue == errQUEUE_FULL) {
-		printf("*** Can't write message to queue 1.\r\n");
+		printf("*** Counter *** Can't write message to queue.\r\n");
 	}
-	if (xMessage.xData.xToBeCounted.ucValue == UINT8_MAX) {
-		xMessage.xData.xToBeCounted.ucValue = 0;
-	} else {
-		xMessage.xData.xToBeCounted.ucValue++;
-	}
+	printf("*** Counter *** Message sent to TCP client task: %d.\r\n",
+			xSentMessage.xData.xCounter.ucValue);
+	// Increment wrapping counter.
+	xSentMessage.xData.xCounter.ucValue++;
 
 }
 
 /**
- * Task 1.
+ * Counter task.
  *
- * Starts the auto-reload timer which sends a message
- * to task 2 on a periodic basis.
+ * Increments a wrapping counter from 0 to 255 every 30 seconds. After
+ * incrementation, a counter message is sent to TCP client task.
  *
- * Parameter is a pointer to task 2's queue.
+ * Parameter is a pointer to TCP client's queue.
  *
  */
-void vTask1(void *pvParameters) {
+void vCounterTask(void *pvParameters) {
 
-	pxTaskQueue = pvParameters;
+	pxTCPClientTaskQueue = pvParameters;
 
 	// Initialize message.
-	xMessage.ucId = MSG_TOBECOUNTED;
-	xMessage.xData.xToBeCounted.ucValue = 0;
+	xSentMessage.ucId = MSG_COUNTER;
+	xSentMessage.xData.xCounter.ucValue = 0;
 
 	// Create timer.
-	ucTimerId = 1;
+	ucTimerId = 3;
 	xTimer = xTimerCreate(
-			"timer1",
-			xTimerDelay,
-			pdTRUE,					// auto-reload
+			"counterTimer",
+			COUNTER_PERIOD,
+			pdTRUE,					// Auto-reload.
 			(void *)(&ucTimerId),
 			vTimerCallback);
 
 	if (xTimer == NULL) {
-		printf("*** timer1 was not created.\r\n");
+		printf("*** Counter *** Timer was not created.\r\n");
 		vTaskDelete(NULL);
 		return;
 	}
 	// At this stage, we got a timer. Try to start it.
 	xRetStatusTimer = xTimerStart(xTimer, 0);
 	if (xRetStatusTimer != pdPASS) {
-		printf("*** timer1 was not started.\r\n");
+		printf("*** Counter *** Timer was not started.\r\n");
 		xTimerDelete(xTimer, 0);
 		vTaskDelete(NULL);
 		return;
 	}
 	// At this stage, the timer has been started.
-	printf("*** timer 1 started.\r\n");
 
 	// Do not exit task.
-	while(true) {
-		vTaskDelay(xTaskDelay);
-		printf("*** Task 1 loop.\r\n");
-
+	while(1) {
+		vTaskDelay(TASK_PERIOD);
 	}
+
 
 }

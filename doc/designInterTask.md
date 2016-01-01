@@ -2,9 +2,9 @@
 
 ## Introduction ##
 
-Thanks to our previous example, we know how to configure the ESP8266 as an access point. Next step I have in mind is to start a TCP server and to wait for incoming connection requests. One way to implement this is to put all required code in one unique thread. But usually, that's better to separate functions (easier testing, easier maintenance, code reuse). In our case, this means one task for Wi-Fi handling and one task for TCP server handling.
+Thanks to our previous example, we know how to configure the ESP8266 as an access point. Next step I have in mind is to write an application which connects to a Wi-Fi access point, and then opens a TCP socket to a remote host and sends it a message on a periodic basis. One way to implement this is to put all required code in one unique thread. But usually, that's better to separate functions (easier testing, easier maintenance, code reuse). In our case, this means at least one task for Wi-Fi handling and one task for TCP client handling.
 
-But having more than one task usually implies some intertask communication.
+But having more than one task implies intertask communication.
 
 ## Queues ##
 
@@ -65,6 +65,6 @@ To implement the behaviour presented above, the code calls on following RTOS ser
 
 Our code, starting with this example, follows [FreeRTOS naming conventions](http://www.freertos.org/FreeRTOS-Coding-Standard-and-Style-Guide.html#NamingConventions).
 
-
+[Next: TCP client](designTCPClient.md)
 
 [Home](design.md)

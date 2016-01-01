@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+environment/project/0.315512243/BIN_PATH/delimiter=\:
+environment/project/0.315512243/BIN_PATH/operation=append
+environment/project/0.315512243/BIN_PATH/value=${HOME}/Dev/ESP-01/bin/TCPClient
+environment/project/0.315512243/PATH/delimiter=\:
+environment/project/0.315512243/PATH/operation=append
+environment/project/0.315512243/PATH/value=/Volumes/case-sensitive/esp-open-sdk/xtensa-lx106-elf/bin\:/usr/local/opt/gnu-sed/libexec/gnubin\:${PATH}
+environment/project/0.315512243/SDK_PATH/delimiter=\:
+environment/project/0.315512243/SDK_PATH/operation=append
+environment/project/0.315512243/SDK_PATH/value=${HOME}/DevTools/Espressif/ESP8266_RTOS_SDK
+environment/project/0.315512243/append=true
+environment/project/0.315512243/appendContributed=true
